@@ -1,0 +1,25 @@
+1) Tener Node.js instalado
+2) Tener Postgresql instalado
+3) Pararse dentro de la CARPETA server
+    - escribir npm init (si a todo) en el terminal
+    - escribir npm i express pg cors en el terminal
+    - escribir nodemon index (esto inicia el servidor) en el terminal
+        - Si le da error con nodemon escriban el error que les sale en google por que seguro es que no lo tienen instalado
+        - Si despues que lo instalan aun le da error es por que tienen que darle permiso asi que escriban el error que le sale en internet
+        - Cada error se resuelve escribiendo una linea en el terminal pero no me acuerdo
+4) Crear un nuevo terminal (sin cerrar el otro)
+5) npx create-react-app client
+    - en la carpete src borrar
+        App.test.js
+        logo.svg
+        setupTest.js
+6) Agarrar la carpeta y copiar lo que esta adentro en client (si a todo)
+7) En ese terminal escribir npm start y deberia arrancar el app
+
+Va a estar todo en blanco seguramente por que la base de datos que tiene es en mi pc
+pero ya ando viendo como ponerlo en Heroku
+
+Si quieren cambian las credenciales en db.js y en el sql esta la super base de datos
+con la que probe esto
+
+
