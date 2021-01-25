@@ -5,12 +5,15 @@ import './App.css';
 import InputPrueba from "./components/InputPrueba";
 import ListPruebas from "./components/ListPruebas";
 
+import ListDependencia from "./components/Dependencia/ListDependencia"
+import InputDependencia from "./components/Dependencia/InputDependencia"
+
 function App() {
   return (
     <Fragment>
       <div className = "container">
-        <InputPrueba />
-        <ListPruebas />
+        <InputDependencia/>
+        <ListDependencia />
       </div>
     </Fragment>
   )
