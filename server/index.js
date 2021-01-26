@@ -5,6 +5,9 @@ const cors = require("cors");
 
 //Import de los endpoints
 const pruebas = require ("../routes/pruebas.js")
+const trabajadores = require ("../routes/trabajadores.js")
+const dependencias = require ("../routes/dependencias.js")
+const lineasSuministro = require("../routes/linea_suministro.js")
 
 //middleware
 app.use(cors());
@@ -88,6 +91,9 @@ app.use (express.json()); //req.body
 // })
 
 app.use(pruebas)
+app.use(trabajadores)
+app.use(dependencias)
+app.use(lineasSuministro)
 
 app.listen(5000, () =>{
     console.log ("Server has started on port 5000")
