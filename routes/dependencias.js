@@ -10,15 +10,17 @@ const pool = require("../server/db");
 
 router.post("/dependencias", async(req, res)=> {
     try {
+       
        const { id, nombre, centro_costo } = req.body;
        const newDependencia = await pool.query(
            "INSERT INTO dependencia (id, nombre, centro_costo) VALUES($1, $2, $3) RETURNING *",
            [id, nombre, centro_costo]
         );
-
+        
     res.json(newDependencia.rows[0]);
     } catch (err) {
         console.error(err.message);
+        
     }
 });
 

@@ -9,6 +9,7 @@ const pool = require("../server/db");
 router.post("/pruebas", async(req, res)=> {
     try {
        const { description } = req.body;
+       
        const newPrueba = await pool.query(
            "INSERT INTO prueba (description) VALUES($1) RETURNING *",
            [description]
