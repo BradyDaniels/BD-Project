@@ -42,7 +42,6 @@ const Listtrabajador=()=>{
                 <thead>
                     <tr>
                         <th>Cedula</th>
-                        <th>Dependencia</th>
                         <th>Nombre</th>
                         <th>Tipo</th>
                    
