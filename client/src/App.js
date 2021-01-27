@@ -1,26 +1,27 @@
-import React, { Fragment } from 'react';
-import './App.css';
+import React, { Fragment, useEffect, useState } from 'react';
+//import './App.css';
+
+import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom';
 
 //Components
-import InputPrueba from "./components/InputPrueba";
-import ListPruebas from "./components/ListPruebas";
+import Trabajadores from "./components/Trabajadores/Trabajadores"
+import Dependencias from "./components/Dependencia/Dependencia"
+import Lineas from "./components/LineadeSuministro/LineaDeSuministro"
+import Sidebar from "./components/Sidebar/Sidebar"
 
-import ListDependencia from "./components/Dependencia/ListDependencia";
-import InputDependencia from "./components/Dependencia/InputDependencia";
-
-import ListLinea from "./components/LineadeSuministro/ListLinea";
-import InputLinea from "./components/LineadeSuministro/InputLinea";
-
-
-function App() {
-  return (
-    <Fragment>
-      <div className = "container">
-        <InputLinea />
-        <ListLinea />
-      </div>
-    </Fragment>
-  )
-}
+ const App = () => {
+   return(
+        <Router>
+          <div className= 'app-wrapper'>
+            <Sidebar/>
+            <Switch>
+                <Route path="/trabajadores" component ={Trabajadores}/>
+                <Route path="/dependencias" component ={Dependencias}/>
+                <Route path="/lineas_suministro" component ={Lineas}/>
+            </Switch>
+          </div>
+        </Router>
+   );
+ };
 
 export default App;

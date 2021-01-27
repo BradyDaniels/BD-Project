@@ -38,7 +38,7 @@ const EditTrabajadores=({trabajadores})=>{
             Edit
         </button>
 
-        <div class="modal" id={ `id${trabajador.id}`}  
+        <div class="modal" id={ `id${trabajadores.id}`}  
                         onClick= {() => setNombre(trabajadores.nombre)}>
         <div class="modal-dialog">
             <div class="modal-content">
@@ -92,7 +92,7 @@ const EditTrabajadores=({trabajadores})=>{
                     type="button" 
                     class="btn btn-danger" 
                     data-dismiss="modal" 
-                    onClick= {() => setNombre(trabajador.nombre)}
+                    onClick= {() => setNombre(trabajadores.nombre)}
                    >
                         Close
                 </button>

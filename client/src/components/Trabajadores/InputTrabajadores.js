@@ -16,7 +16,7 @@ const InputTrabajadores=()=>{
         e.preventDefault();
         console.log('onSummit')
         try {
-            const body = {cedula,id_dependencia,nombre,tipo };
+            const body = {cedula,id,nombre,tipo };
             
             const response = await fetch("http://localhost:5000/trabajadores",{
                 method: "POST",
@@ -34,7 +34,7 @@ const InputTrabajadores=()=>{
     return (
         <Fragment>
             <h1 className= "text-center mt-5">
-                Dependencia List
+                Trabajadores
                 
                 <form className= "d-flex mt-5" onSubmit={ onSubmitForm }>
 
