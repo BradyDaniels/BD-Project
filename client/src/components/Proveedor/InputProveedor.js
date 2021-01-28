@@ -2,13 +2,13 @@ import React, { Fragment, useState } from "react";
 
     
 
-const InputTrabajadores=()=>{
+const InputProveedor=()=>{
 
-    const [cedula, setCedula] = useState ("Cedula");
-    const [id, setID_Dependencia] = useState ("ID_Dependencia");
-    const [nombre, setNombre] = useState ("Nombre");
-    const [tipo, setTipo] = useState ("Tipo");
-
+    const [rif, setRif] = useState ("RIF");
+    const [razon_social, setRazonSocial] = useState ("Razon Social");
+    const [telefono, setTelefono] = useState ("Telefono");
+    const [correo, setCorreo] = useState ("Correo");
+    const [direccion, setDireccion] = useState ("Direccion");
 
 
 
@@ -16,15 +16,15 @@ const InputTrabajadores=()=>{
         e.preventDefault();
         console.log('onSummit')
         try {
-            const body = {cedula,id,nombre,tipo };
+            const body = { rif, razon_social, telefono, correo, direccion };
             
-            const response = await fetch("http://localhost:5000/trabajadores",{
+            const response = await fetch("http://localhost:5000/proveedores",{
                 method: "POST",
                 headers : { "Content-type": "application/json" },
                 body: JSON.stringify(body)
 
             });
-            window.location = "/";
+            window.location = "/proveedores";
     
         } catch (err) {
             console.error(err.message);
@@ -34,36 +34,41 @@ const InputTrabajadores=()=>{
     return (
         <Fragment>
             <h1 className= "text-center mt-5">
-                Trabajadores
+                Proveedores
                 
                 <form className= "d-flex mt-5" onSubmit={ onSubmitForm }>
-
                     <input 
                         type= "intenger" 
                         className= "form-control" 
-                        value ={cedula}
-                        onChange ={e => setCedula (parseInt(e.target.value))}
-                    />
-
-                    <input 
-                        type= "intenger" 
-                        className= "form-control" 
-                        value ={id}
-                        onChange ={e => setID_Dependencia (parseInt(e.target.value))}
+                        value ={rif}
+                        onChange ={e => setRif (parseInt(e.target.value))}
                     />
 
                     <input 
                         type= "text" 
                         className= "form-control" 
-                        value ={nombre}
-                        onChange ={e => setNombre(e.target.value)}
+                        value ={razon_social}
+                        onChange ={e => setRazonSocial(e.target.value)}
                     />
 
                     <input 
                         type= "text" 
                         className= "form-control" 
-                        value ={tipo}
-                        onChange ={e => setTipo (e.target.value)}
+                        value ={telefono}
+                        onChange ={e => setTelefono (e.target.value)}
+                    />
+                    <input 
+                        type= "text" 
+                        className= "form-control" 
+                        value ={correo}
+                        onChange ={e => setCorreo (e.target.value)}
+                    />
+
+                    <input 
+                        type= "text" 
+                        className= "form-control" 
+                        value ={direccion}
+                        onChange ={e => setDireccion (e.target.value)}
                     />
 
                     <button className="btn btn-success">
@@ -77,4 +82,4 @@ const InputTrabajadores=()=>{
         );
 };
 
-export default InputTrabajadores;
+export default InputProveedor;

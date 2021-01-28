@@ -43,7 +43,7 @@ const EditDependencia=({dependencia})=>{
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    Edit Dependencia
+                    Editar Dependencia
                 </h4>
                 <button 
                     type="button" 
@@ -56,6 +56,9 @@ const EditDependencia=({dependencia})=>{
             </div>
 
             <div class="modal-body">
+                <h5>
+                    Nombre
+                </h5>
                 <input 
                 type= "text" 
                 className="form-control" 
@@ -63,6 +66,9 @@ const EditDependencia=({dependencia})=>{
                 onChange= { e => setNombre(e.target.value)}
                />
                 <br/>
+                <h5>
+                    Centro de Costo
+                </h5>
                 <input 
                 type= "text" 
                 className="form-control" 

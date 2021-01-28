@@ -44,7 +44,7 @@ const EditTrabajadores=({trabajadores})=>{
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    Edit trabajador
+                    Editar trabajador
                 </h4>
                 <button 
                     type="button" 
@@ -57,6 +57,9 @@ const EditTrabajadores=({trabajadores})=>{
             </div>
 
             <div class="modal-body">
+                <h5>
+                   ID Dependencia
+                </h5>
                <input 
                 type= "text" 
                 className="form-control" 
@@ -64,6 +67,9 @@ const EditTrabajadores=({trabajadores})=>{
                 onChange= { e => setID_Depdencia(e.target.value)}
                />
                 <br/>
+                <h5>
+                    Nombre
+                </h5>
                 <input 
                 type= "text" 
                 className="form-control" 
@@ -71,6 +77,9 @@ const EditTrabajadores=({trabajadores})=>{
                 onChange= { e => setNombre(e.target.value)}
                />
                 <br/>
+                <h5>
+                    Tipo
+                </h5>
                 <input 
                 type= "text" 
                 className="form-control" 

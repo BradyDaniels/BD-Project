@@ -42,7 +42,7 @@ const EditLinea = ( { lineas } ) => {
                 <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        Edit Prueba
+                        Editar Linea de Suministro
                     </h4>
                     <button 
                         type="button" 
@@ -54,6 +54,9 @@ const EditLinea = ( { lineas } ) => {
                 </div>
 
                 <div class="modal-body">
+                <h5>
+                    Descripcion
+                </h5>
                     <input 
                     type= "text" 
                     className="form-control" 

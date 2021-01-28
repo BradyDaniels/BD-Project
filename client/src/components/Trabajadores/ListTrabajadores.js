@@ -44,6 +44,8 @@ const Listtrabajador=()=>{
                         <th>Cedula</th>
                         <th>Nombre</th>
                         <th>Tipo</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                    
                     </tr>
                 </thead>
@@ -54,8 +56,8 @@ const Listtrabajador=()=>{
                         <td>john@example.com</td>
                     </tr> */}
                     {trabajadores.map(trabajadores =>(
-                        <tr key={trabajadores.cedula}>
-                            <td>{trabajadores.id_dependencia}</td>
+                        <tr>
+                            <td>{trabajadores.cedula}</td>
                             <td>{trabajadores.nombre}</td>
                             <td>{trabajadores.tipo}</td>
                             <td>

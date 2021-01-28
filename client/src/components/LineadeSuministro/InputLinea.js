@@ -5,7 +5,7 @@ const InputLinea = () =>{
 
 
 const [id, setIDLinea] = useState ("ID");
-const [descripcion, setDescription] = useState ("Aqui va el texto default");
+const [descripcion, setDescription] = useState ("Descripcion");
 
 const onSubmitForm = async (e) =>{
     e.preventDefault();
@@ -27,7 +27,7 @@ const onSubmitForm = async (e) =>{
     return (
     <Fragment>
         <h1 className= "text-center mt-5">
-            Prueba List
+            Lineas de Suministro
             <form className= "d-flex mt-5" onSubmit={ onSubmitForm }>
                 
                 <input 
