@@ -1,5 +1,8 @@
-const express = require ("express");
-const app = express();
+const { createServer } = require('http') //no estaba
+const express = require ("express"); 
+const compression = require ('compression') //no estaba
+const morgan = require('morgan') //no estaba
+const path = require ('path') //no estaba
 const cors = require("cors");
 
 //Import de los endpoints
@@ -22,10 +25,30 @@ const requisiciones = require("../routes/requisiciones.js")
 const respuestas = require("../routes/respuestas.js")
 const trabajadores = require ("../routes/trabajadores.js")
 
+//guardar credenciales de la bd
+// const pool = require('./db')
+// process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
+
+//puerto donde va a correr el back (si esta en produccion correra en port y si no correra en localhost5000)
+const normalizePort = port => parseInt(port, 10) //no estaba
+const PORT = normalizePort(process.env.PORT || 5000) //no estaba
+const app = express()
+const dev = app.get('env') !== 'production' //no estaba
+
 //middleware
 app.use(cors());
 app.use (express.json()); //req.body
 
+if (!dev) { //no estaba
+    app.use(compression()) //no estaba
+    app.use(morgan('common')) //no estaba
+    app.use(express.static(path.resolve(__dirname, 'dist'))) //no estaba
+} else { //no estaba
+    app.use(morgan('dev')) //no estaba
+}
+
+
+//Uso de los endpoints
 app.use(cotizaciones)
 app.use(dependencias)
 app.use(detalle_compra)
@@ -45,6 +68,13 @@ app.use(requisiciones)
 app.use(respuestas)
 app.use(trabajadores)
 
-app.listen(5000, () =>{
-    console.log ("Server has started on port 5000")
-});
+const server = createServer(app)
+
+server.listen(PORT, err => {
+    if (err) throw err
+    console.log('Servidor iniciado en localhost:', PORT)
+})
+
+// app.listen(5000, () =>{
+//     console.log ("Server has started on port 5000")
+// });

@@ -1,14 +1,17 @@
-import React  from 'react';
-import InputDepdencia from './InputDependencia';
-import ListDependencia from './ListDependencia';
+import React from 'react'
+import DependenciasTable from './DependenciasTable'
+import DependenciasForm from './DependenciasForm'
+
 const Dependencias = () => {
+
     return (
         <div className="content-container">
+            <h1 className="content-title">Dependencias</h1>
             <div className="form-container">
-                <InputDepdencia />
+                <DependenciasForm />
             </div>
             <div className="table-container">
-                <ListDependencia />
+                <DependenciasTable />
             </div>
         </div>
     )
