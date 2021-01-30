@@ -1,0 +1,80 @@
+*{
+    margin:0;
+    padding:0;
+    font-family: 'Roboto';
+}
+
+html{
+    font-size: 16px;
+}
+
+.form-container{
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.table-container{
+    width: 100%;
+    font-size: 1rem;
+}
+
+.content-title{
+    font-size: 3rem;
+    font-weight: 500;
+    margin: 2rem;
+}
+
+.content-container{
+    width: 100%;
+    z-index: 0;
+    text-align: center;
+}
+
+.app-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+
+.text-field{
+    margin: 2rem;
+}
+
+.propuesta-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.propuesta-form-2,
+.propuesta-form-1{
+    margin: 1rem;
+}
+
+.w-15{
+    width: 15rem;
+    margin-bottom: 1rem;
+}
+
+.tg-form-1,
+.tg-form-2{
+    margin: 1rem;;
+}
+.display-data{
+    margin-top: 2rem;
+}
+
+.select-jurado-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: auto;
+}
+
+.select-jurado-title{
+    text-align: center;
+    margin: auto;
+}
+
+/* .tg-container{
+} */

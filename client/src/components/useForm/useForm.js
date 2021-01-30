@@ -22,8 +22,8 @@ const useForm = (fields, proxy) => {
             .then(res => res.json())
             .then(result => console.log(result))
             .catch(err => console.log(err.message))
-            
-            //window.location = "/${proxy}";
+           
+            window.location = window.location.href;
     }
 
     return ({

@@ -92,6 +92,7 @@ const ItemForm=()=>{
                         value={values.precio_unitario}
                         onChange={handleChange} /> 
             
+                </div>
                     <FormControl>
                         <InputLabel id="dependencias-label">Lineas de Suministro</InputLabel>
                         <Select
@@ -109,9 +110,8 @@ const ItemForm=()=>{
                             ))}
                         </Select>
                     </FormControl>                
-                </div>
                 
-                <Button type="submit" variant="contained" size="small" disableElevation>Añadir Proveedor</Button>
+                <Button type="submit" variant="contained" size="small" disableElevation>Añadir Item</Button>
             </FormControl>
         </form>
    </div> 
