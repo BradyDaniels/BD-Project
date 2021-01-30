@@ -12,6 +12,7 @@ const Sidebar = () => {
                 <NavLink to="/dependencias" className="sidebar-text" activeClassName="active-link">Dependencias</NavLink>
                 <NavLink to="/proveedores" className="sidebar-text" activeClassName="active-link">Proveedores</NavLink>
                 <NavLink to="/lineas_suministro" className="sidebar-text" activeClassName="active-link">Lineas de Suministro</NavLink>
+                <NavLink to="/linea_proveedor" className="sidebar-text" activeClassName="active-link">Linea-Proveedor</NavLink>
                 <NavLink to="/items" className="sidebar-text" activeClassName="active-link">Items</NavLink>
         </div>
     </div>
