@@ -10,6 +10,9 @@ const Sidebar = () => {
         <div className= "sidebar-content recursive">
                 <NavLink to="/trabajadores" className="sidebar-text" activeClassName="active-link">Trabajadores</NavLink>
                 <NavLink to="/dependencias" className="sidebar-text" activeClassName="active-link">Dependencias</NavLink>
+                <NavLink to="/proveedores" className="sidebar-text" activeClassName="active-link">Proveedores</NavLink>
+                <NavLink to="/lineas_suministro" className="sidebar-text" activeClassName="active-link">Lineas de Suministro</NavLink>
+                <NavLink to="/items" className="sidebar-text" activeClassName="active-link">Items</NavLink>
         </div>
     </div>
   );  
