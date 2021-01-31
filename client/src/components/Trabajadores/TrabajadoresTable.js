@@ -60,6 +60,9 @@ const TrabajadoresTable = () => {
             title="Trabajadores"
             columns={state.columns}
             data={trabajadores}
+            options={{
+                filtering: true
+              }}
             editable={{
                 onRowUpdate: (newData, oldData) =>
                     new Promise((resolve) => {

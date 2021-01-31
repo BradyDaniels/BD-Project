@@ -3,17 +3,17 @@ const { builtinModules } = require("module");
 const router = express.Router()
 const pool = require("../server/db");
 
-//id , id_linea, fecha_emision
+//id , id_linea, fecha_emision, obsercaciones, condiciones_entrega
 
 
 //Create Cotizacion
 
 router.post("/cotizaciones", async(req, res)=> {
     try {
-       const { id, id_linea, fecha_emision } = req.body;
+       const { id, id_linea, fecha_emision, observaciones, condiciones_entrega } = req.body;
        const newCotizacion = await pool.query(
-           "INSERT INTO cotizacion (id, id_linea, fecha_emision) VALUES($1, $2, $3) RETURNING *",
-           [ id, id_linea, fecha_emision ]
+           "INSERT INTO cotizacion (id, id_linea, fecha_emision, observaciones, condiciones_entrega) VALUES($1, $2, $3, $4, $5) RETURNING *",
+           [ id, id_linea, fecha_emision, observaciones, condiciones_entrega ]
         );
 
     res.json(newCotizacion.rows[0]);
@@ -55,10 +55,10 @@ router.get("/cotizaciones/:id", async(req, res) =>{
 router.put("/cotizaciones/:id", async(req,res) =>{
     try {
         const { id } = req.params;
-        const { id_cotizacion, id_linea, fecha_emision } = req.body;
+        const { id_cotizacion, id_linea, fecha_emision, observaciones, condiciones_entrega } = req.body;
         const updateCotizacion = await pool.query(
-            "UPDATE cotizacion SET id = $1, id_linea = $2, fecha_emision = $3 WHERE id = $4",
-            [ id, id_linea, fecha_emision, id ]
+            "UPDATE cotizacion SET id = $1, id_linea = $2, fecha_emision = $3, observaciones = $4, condiciones_entrega = $5 WHERE id = $6",
+            [ id, id_linea, fecha_emision, observaciones, condiciones_entrega, id ]
         );
     res.json ("Cotizacion was updated");
     } catch (err) {

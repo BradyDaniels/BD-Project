@@ -60,6 +60,9 @@ const LineaTable=()=>{
             title="Linea_Sumninistro"
             columns={state.columns}
             data={lineas}
+            options={{
+                filtering: true
+              }}
             editable={{
                 onRowUpdate: (newData, oldData) =>
                     new Promise((resolve) => {
