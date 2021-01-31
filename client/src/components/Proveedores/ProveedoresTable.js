@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
+import ProLineaTable from './Proveedores_Linea/ProLineaTable';
+import Button from '@material-ui/core/Button'
+
+
 
 const ProveedoresTable=()=>{
    //estado del Componente
@@ -64,6 +68,19 @@ const ProveedoresTable=()=>{
             title="Proveedores"
             columns={state.columns}
             data={proveedores}
+            options={{
+                filtering: true
+              }}
+           detailPanel={[
+               {
+                tooltip: 'Show Name',
+                render: rowData => {
+                  return (
+                    <ProLineaTable/>
+                  )
+                }
+               }
+           ]}
             editable={{
                 onRowUpdate: (newData, oldData) =>
                     new Promise((resolve) => {
@@ -94,7 +111,9 @@ const ProveedoresTable=()=>{
                         }, 600);
                     }),
             }}
-        />
+        >
+            
+        </MaterialTable>
     )
 
 }

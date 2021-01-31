@@ -59,9 +59,8 @@ const ProveedoresForm=()=>{
                         label="Direccion"
                         name="direccion"
                         value={values.direccion}
-                        onChange={handleChange} />     
+                        onChange={handleChange} />         
                 </div>
-                
                 <Button type="submit" variant="contained" size="small" disableElevation>Añadir Proveedor</Button>
             </FormControl>
         </form>
