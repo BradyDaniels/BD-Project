@@ -39,9 +39,9 @@ router.get ("/linea_proveedor", async (req, res) =>{
 
 router.get("/linea_proveedor/:id", async(req, res) =>{
     try {
-        const { id } = req.params;
+        const { id} = req.params;
         const LineaProveedor = await pool.query(
-            "SELECT * FROM linea_proveedor WHERE id_linea = $1",
+            "SELECT * FROM linea_proveedor WHERE id_linea = $1 AND rif = $2",
             [id]
         );
     res.json(LineaProveedor.rows);
@@ -68,12 +68,12 @@ router.put("/linea_proveedor/:id", async(req,res) =>{
 
 //Delete a linea_proveedor //Hay que ver esto bien por que tendria que ser compuesto id y rif
 
-router.delete ("/linea_proveedor/:id", async (req,res) =>{
+router.delete ("/linea_proveedor/:id/:id2", async (req,res) =>{
     try {
-        const { id } = req.params;
+        const { id,id2 } = req.params;
         const deleteLineaProveedor = await pool.query(
-            "DELETE FROM linea_proveedor WHERE id_linea = $1",
-            [id]
+            "DELETE FROM linea_proveedor WHERE id_linea = $1 AND rif =$2",
+            [id,id2]
         );
     res.json("Linea Proveedor was deleted");
     } catch (err) {
