@@ -26,7 +26,7 @@ router.post("/trabajadores", async(req, res)=> {
 router.get ("/trabajadores", async (req, res) =>{
     try {
         const allTrabajadores = await pool.query(
-            "SELECT * FROM trabajador"
+             "SELECT * FROM trabajador"
         );
     res.json(allTrabajadores.rows);
     } catch (err) {
@@ -48,6 +48,42 @@ router.get("/trabajadores/:id", async(req, res) =>{
         console.error(err.message);
     }
 })
+
+router.get ("/Tdirectores", async (req, res) =>{
+    try {
+        const allTrabajadores = await pool.query(
+             "SELECT * FROM trabajador WHERE tipo='D'"
+        );
+    res.json(allTrabajadores.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
+router.get("/TjefeUnidad/:id", async(req, res) =>{
+    try {
+        const { id } = req.params;
+        const trabajador = await pool.query(
+            "SELECT * FROM trabajador WHERE tipo='J'AND id_dependencia = $1",
+            [id]
+        );
+    res.json(trabajador.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
+router.get ("/TjefeUnidad", async (req, res) =>{
+    try {
+        const allTrabajadores = await pool.query(
+             "SELECT * FROM trabajador WHERE tipo='J'"
+        );
+    res.json(allTrabajadores.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 
 //Update a Trabajador
 

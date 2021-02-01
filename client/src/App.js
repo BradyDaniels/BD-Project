@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom';
  import Lineas from "./components/LineaSuministro/Linea"
  import Items from "./components/Item/Item"
  import LineaProveedor from "./components/LineaProveedor/LineaProveedor"
+ import Requisicion from "./components/Anexo_Requisicion/Anexo_Requisicion"
 // import Lineas from "./components/LineadeSuministro/LineaDeSuministro"
 // import Proveedores from "./components/Proveedor/Proveedor"
  import Sidebar from "./components/Sidebar/Sidebar"
@@ -26,6 +27,7 @@ import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom';
                 <Route path="/lineas_suministro" component ={Lineas}/>
                 <Route path="/items" component ={Items}/>
                 <Route path="/linea_proveedor" component ={LineaProveedor}/>
+                <Route path="/Requisicion" component ={Requisicion}/>
                 {/* <Route path="/lineas_suministro" component ={Lineas}/>
                 <Route path="/proveedores" component ={Proveedores}/> */}
             </Switch>

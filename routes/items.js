@@ -50,6 +50,19 @@ router.get("/items/:id", async(req, res) =>{
     }
 })
 
+router.get("/Lineaitems/:id", async(req, res) =>{
+    try {
+        const { id } = req.params;
+        const item = await pool.query(
+            "SELECT * FROM item WHERE id_linea = $1",
+            [id]
+        );
+    res.json(item.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 //Update a Item
 
 router.put("/items/:id", async(req,res) =>{
