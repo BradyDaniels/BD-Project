@@ -59,6 +59,9 @@ const ItemTable=()=>{
             title="Items"
             columns={state.columns}
             data={items}
+            options={{
+                filtering: true
+              }}
             editable={{
                 onRowUpdate: (newData, oldData) =>
                     new Promise((resolve) => {

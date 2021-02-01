@@ -16,6 +16,7 @@ const jefesUnidad = require("../routes/jefes_unidad.js")
 const linea_proveedor = require("../routes/linea_proveedor") //Revisar
 const lineasSuministro = require("../routes/linea_suministro.js")
 const orden_compra = require("../routes/orden_compra")
+const orden_respuesta = require("../routes/orden_respuesta") //Revisar
 const proveedor_cotizacion = require("../routes/proveedor_cotizacion") //Revisar
 const proveedor_orden = require("../routes/proveedor_orden") //Revisar
 const proveedores = require("../routes/proveedores.js")
@@ -59,6 +60,7 @@ app.use(jefesUnidad)
 app.use(linea_proveedor)
 app.use(lineasSuministro)
 app.use(orden_compra)
+app.use(orden_respuesta)
 app.use(proveedor_cotizacion)
 app.use(proveedor_orden)
 app.use(proveedores)

@@ -58,6 +58,9 @@ const LineaProveedorTable = () => {
             title="Linea Proveedor"
             columns={state.columns}
             data={lineaProveedor}
+            options={{
+                filtering: true
+              }}
             editable={{
                 onRowUpdate: (newData, oldData) =>
                     new Promise((resolve) => {

@@ -11,7 +11,7 @@ router.post("/orden_compra", async(req, res)=> {
     try {
        const { id, razon_social, fecha_orden, monto_total, fecha_emision, formato_pago, tipo_moneda, cedula_director  } = req.body;
        const newOrdenCompra = await pool.query(
-           "INSERT INTO orden_compra (id, razon_social, fecha_orden, monto_total, fecha_emision, formato_pago, tipo_moneda, cedula_director) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+           "INSERT INTO orden_compra (id, fecha_orden, monto_total, fecha_entrega, formato_pago, tipo_moneda, cedula_director, observaciones, condiciones_entrega) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
            [ id, razon_social, fecha_orden, monto_total, fecha_emision, formato_pago, tipo_moneda, cedula_director ]
         );
 
@@ -54,10 +54,10 @@ router.get("/orden_compra/:id", async(req, res) =>{
 router.put("/orden_compra/:id", async(req,res) =>{
     try {
         const { id } = req.params;
-        const { id_orden, razon_social, fecha_orden, monto_total, fecha_emision, formato_pago, tipo_moneda, cedula_director } = req.body;
+        const { id_orden, fecha_orden, monto_total, fecha_entrega, formato_pago, tipo_moneda, cedula_director, observaciones, condiciones_entrega } = req.body;
         const updateOrdenCompra = await pool.query(
-            "UPDATE orden_compra SET id = $1, razon_social = $2, fecha_orden = $3, monto_total = $4, fecha_emision = $5, formato_pago =$6, tipo_moneda =$7, cedula_director = $8 WHERE  id = $9",
-            [ id, razon_social, fecha_orden, monto_total, fecha_emision, formato_pago, tipo_moneda, cedula_director, id  ]
+            "UPDATE orden_compra SET id = $1, fecha_orden = $2, monto_total = $3, fecha_entrega = $4, formato_pago = $5, tipo_moneda = $6, cedula_director =$7, observaciones = $8, condiciones_entrega = $9 WHERE  id = $10",
+            [ id, fecha_orden, monto_total, fecha_entrega, formato_pago, tipo_moneda, cedula_director, observaciones, condiciones_entrega, id  ]
         );
     res.json ("ORden de Compra was updated");
     } catch (err) {

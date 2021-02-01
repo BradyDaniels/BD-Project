@@ -13,7 +13,7 @@ const DependenciasTable = () => {
     //TODAS LAS VARIABLES DE LAS TABLAS DEBEN TENER EL MISMO NOMBRE QUE EN LA BD
     const [ state, setState ] = useState({
         columns: [
-            {title: 'id', field: 'nombre', editable: 'never'},
+            {title: 'ID', field: 'id', editable: 'never'},
             {title: 'Nombre Dependencia', field: 'nombre'},
             {title: 'Centro de Costo', field: 'centro_costo'},
         ],
@@ -64,6 +64,9 @@ const DependenciasTable = () => {
             title="Dependencias"
             columns={state.columns}
             data={dependencias}
+            options={{
+                filtering: true
+              }}
             editable={{
                 onRowUpdate: (newData, oldData) =>
                     new Promise((resolve) => {

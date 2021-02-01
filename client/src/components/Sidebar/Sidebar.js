@@ -14,7 +14,15 @@ const Sidebar = () => {
                 <NavLink to="/lineas_suministro" className="sidebar-text" activeClassName="active-link">Lineas de Suministro</NavLink>
                 <NavLink to="/linea_proveedor" className="sidebar-text" activeClassName="active-link">Linea-Proveedor</NavLink>
                 <NavLink to="/items" className="sidebar-text" activeClassName="active-link">Items</NavLink>
-                <NavLink to="/Requisicion" className="sidebar-text" activeClassName="active-link">Crear Requisicion</NavLink>
+                <NavLink to="/cotizaciones" className="sidebar-text" activeClassName="active-link">Cotizaciones</NavLink>
+                <NavLink to="/Requisicion" className="sidebar-text" activeClassName="active-link">Requisicion</NavLink>
+                <NavLink to="/detalle_compra" className="sidebar-text" activeClassName="active-link">Detalles de Compra</NavLink>
+                <NavLink to="/detalle_requisicion" className="sidebar-text" activeClassName="active-link">Detalles de Requisicion</NavLink>
+                <NavLink to="/orden_compra" className="sidebar-text" activeClassName="active-link">Ordenes de Compra</NavLink>
+                <NavLink to="/orden_respuesta" className="sidebar-text" activeClassName="active-link">Ordenes-Respuestas</NavLink>
+                <NavLink to="/proveedor_cotizacion" className="sidebar-text" activeClassName="active-link">Proveedor-Cotizacion</NavLink>
+                <NavLink to="/proveedor_orden" className="sidebar-text" activeClassName="active-link">Proveedor-Ordenes</NavLink>
+                <NavLink to="/requisicion_cotizacion" className="sidebar-text" activeClassName="active-link">Requisicion-Cotizacion</NavLink>
         </div>
     </div>
   );  
