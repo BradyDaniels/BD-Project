@@ -3,12 +3,14 @@ import { useState } from 'react'
 const useForm = (fields, proxy) => {
     const [values, setValues] = useState(fields);
 
+
     const handleChange = ({ target }) => {
         setValues({
             ...values,
             [target.name]: target.value
         })
-        console.log(values);
+        console.log(values)
+     
     }
 
     const handleSubmit = e => {
@@ -28,8 +30,9 @@ const useForm = (fields, proxy) => {
 
     return ({
         values,
+
         handleSubmit,
-        handleChange
+        handleChange,
     })
     
 }

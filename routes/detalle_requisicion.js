@@ -15,7 +15,7 @@ router.post("/detalle_requisicion", async(req, res)=> {
            "INSERT INTO detalle_requisicion ( id, cantidad_solicitada, precio_estimado, id_requisicion, id_item ) VALUES($1, $2, $3, $4, $5) RETURNING *",
            [ id, cantidad_solicitada, precio_estimado, id_requisicion, id_item ]
         );
-
+    console.log( req.body)
     res.json(newDetalleReq.rows[0]);
     } catch (err) {
         console.error(err.message);

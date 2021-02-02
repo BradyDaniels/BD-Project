@@ -10,7 +10,7 @@ const Items=()=>{
             <div className="form-container">
                 <Areq_FormHeader />
               
-                <Areq_FormItem/>
+                {/*<Areq_FormItem/>*/}
             </div>
         </div>
     )

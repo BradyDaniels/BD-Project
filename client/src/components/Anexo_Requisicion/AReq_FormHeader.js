@@ -10,12 +10,15 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import useForm from '../useForm/useForm'
 
+
+import Areq_FormItem from './AReq_FormItems';
+
 const AReq_FormHeader=()=>{
     const [dependencias, setDependencias] = useState([{}])
     const [lineas, setLineas] = useState([{}])
-    const [trabajadores,setTrabajador]=useState([{}])
+    const [trabajadores,setTrabajador]=useState([{}])//Director
     const [JefeUnidad,setJefeUnidad]=useState([{}])  
-    
+    const [items, setItems] = useState([{}])
   
 
     const proxy = 'Requisicion'
@@ -30,6 +33,28 @@ const AReq_FormHeader=()=>{
         prioridad:'',
 
     }, proxy);
+
+    const fetchLineaItems=()=>{
+        if(values.id_linea==''){ 
+         fetch('http://localhost:5000/Items')
+             .then(res => res.json())
+             .then(result => setItems(result))
+             .catch(err => console.log(err.message))
+          
+        }
+        else{
+         const GetItems=fetch(`http://localhost:5000/Lineaitems/${values.id_linea}`, {
+             method: 'GET',
+             headers: { 'Content-type': 'application/json' }
+         })
+             .then(res => res.json())
+             .then(result => setItems(result))
+             .catch(err => console.log(err.message))
+       
+          
+         
+        }
+    }   
 
     const fetchDependencias = () => {
         fetch('http://localhost:5000/dependencias')
@@ -77,6 +102,7 @@ const AReq_FormHeader=()=>{
     }
     
     const a=async ()=>{fetchJefeUnidad()
+        console.log(require.body)
      }
     useEffect(() => {
         fetchDependencias()
@@ -86,9 +112,6 @@ const AReq_FormHeader=()=>{
         //fetchInstituciones()
     }, [])
 
-    const onChange=e=>{
-        values.id=e.target.value
-    }
 
     return (
         <div className="form-container">
@@ -147,7 +170,7 @@ const AReq_FormHeader=()=>{
                             onBlur={handleChange}
                         >
                             {lineas.map((linea, i) => (
-                                <MenuItem value={linea.id} key={i}>
+                                <MenuItem value={linea.id} key={i} onClick={fetchLineaItems}>
                                     {linea.descripcion}
                                 </MenuItem>
                             ))}
@@ -228,6 +251,7 @@ const AReq_FormHeader=()=>{
                     </FormControl>
                 </FormControl>
             </form>
+             <Areq_FormItem items={items} Rvalues={values}/>
         </div>
     )
 

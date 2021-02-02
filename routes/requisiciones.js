@@ -8,13 +8,13 @@ const pool = require("../server/db");
 
 router.post("/requisiciones", async(req, res)=> {
     try {
-       const { id, id_dependencia, id_linea, fecha_emision, cedula_trabajador, cedula_director, cedula_jefeunidad } = req.body;
+       const { id, id_dependencia, id_linea, fecha_emision, cedula_director, cedula_jefeunidad,observaciones,prioridad } = req.body;
        
        const newRequisicion = await pool.query(
-           "INSERT INTO requisicion (id, id_dependencia, id_linea, fecha_emision, cedula_trabajador, cedula_director, cedula_jefeunidad) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-           [id, id_dependencia, id_linea, fecha_emision, cedula_trabajador, cedula_director, cedula_jefeunidad]
+           "INSERT INTO requisicion (id, id_dependencia, id_linea, fecha_emision, cedula_director, cedula_jefeunidad,observaciones,prioridad) VALUES($1, $2, $3, $4, $5, $6, $7,$8) RETURNING *",
+           [id, id_dependencia, id_linea, fecha_emision, cedula_director, cedula_jefeunidad,observaciones,prioridad]
         );
-
+    console.log( req.body)
     res.json(newRequisicion.rows[0]);
     } catch (err) {
         console.error(err.message);

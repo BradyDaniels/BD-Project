@@ -11,19 +11,20 @@ import MenuItem from '@material-ui/core/MenuItem'
 import useForm from '../useForm/useForm'
 import MaterialTable from 'material-table'
 
-const AReq_FormItems=()=>{
+const AReq_FormItems=({items,Rvalues})=>{
     const [lineas, setLineas] = useState([{}])
 
-    const [items, setItems] = useState([{}])
+    //const [items, setItems] = useState([{}])
 
-    const [ReqItems,setReqItems]=useState([{}])
+    const [ReqItems,setReqItems]=useState([{id:null}])
+
     
     const [state, setState] = useState({
         columns: [
-            { title: 'id', field: 'id', editable: 'never' },
-            { title: 'Item', field: 'id_item' },
-            { title: 'Cantidad', field: 'cantidad' },
-            { title: 'Precio', field: 'precio' },
+            { title: 'id', field: 'id_item', editable: 'never' },
+            { title: 'Item', field: 'nombre' ,editable: 'never'},
+            { title: 'Cantidad', field: 'cantidad_solicitada',type: 'numeric'},
+            { title: 'Precio', field: 'precio_estimado' ,type: 'numeric',editable: 'never'},
         ],
         data: []
     })
@@ -31,34 +32,14 @@ const AReq_FormItems=()=>{
     const proxy='Requisicion';
     const { handleChange, handleSubmit, values } = useForm ({ 
         id: '',
+        id_item:'',
         nombre: '',
         descripcion: '',
         unidad_medida:'',
         precio_unitario:'',
-        id_linea:''  
     }, proxy);
 
-    const fetchLineaItems=()=>{
-        if(values.id_linea==''){ 
-         fetch('http://localhost:5000/Items')
-             .then(res => res.json())
-             .then(result => setItems(result))
-             .catch(err => console.log(err.message))
-          
-        }
-        else{
-         const GetItems=fetch(`http://localhost:5000/Lineaitems/${values.id_linea}`, {
-             method: 'GET',
-             headers: { 'Content-type': 'application/json' }
-         })
-             .then(res => res.json())
-             .then(result => setItems(result))
-             .catch(err => console.log(err.message))
-       
-          
-         
-        }
-    }   
+    
     const fetchLineas = () => {
         fetch('http://localhost:5000/lineas_suministro')
             .then(res => res.json())
@@ -70,7 +51,59 @@ const AReq_FormItems=()=>{
         fetchLineas()
         //fetchInstituciones()
     }, [])
+    
+    const check=()=>{
+       var aux=false 
+       ReqItems.map((item,i)=>{
+           if(item.id==values.id){
+              aux=true
+            
+           }     
+       })
+        
+       return aux;
+    }
 
+    const cargar=()=>{
+     
+        items.map((item,i)=>{
+            if(values.id==item.id){
+           
+                if(ReqItems[0].id==null){
+                        setReqItems([{id_requisicion:Rvalues.id,id:i,id_linea:item.id_linea,id_item:item.id,nombre:item.nombre,cantidad_solicitada:1,precio_estimado:item.precio_unitario,precio:item.precio_unitario}])
+                }
+                else if(!check() && values.id_linea==ReqItems[0].id_linea){
+                    setReqItems(ReqItems.concat([{id_requisicion:Rvalues.id,id:i,id_linea:item.id_linea,id_item:item.id,nombre:item.nombre,cantidad_solicitada:1,precio_estimado:item.precio_unitario,precio:item.precio_unitario}]))
+                
+                    }
+          
+            }
+        })
+ 
+    }
+    const fetchCargarRequisicion=()=>{
+        console.log('VALORES: ',Rvalues.id)
+        console.log('LISTA DE ITMES: ',ReqItems[0].id_requisicion)
+        fetch(`http://localhost:5000/requisiciones`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(Rvalues)
+        })
+            .then(res => res.json())
+            .then(result => console.log(result))
+            .catch(err => console.log(err.message))
+       ReqItems.map((item,i)=>{
+        fetch(`http://localhost:5000/detalle_requisicion`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(ReqItems[i])
+        })
+            .then(res => res.json())
+            .then(result => console.log(result))
+            .catch(err => console.log(err.message)) 
+       }) 
+          
+    }
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit}>
@@ -86,7 +119,7 @@ const AReq_FormItems=()=>{
                                 onBlur={handleChange}
                             >
                                 {lineas.map((linea, i) => (
-                                    <MenuItem value={linea.id} key={i} onClick={fetchLineaItems}>
+                                    <MenuItem value={linea.id} key={i}>
                                         {linea.descripcion}
                                     </MenuItem>
                                 ))}
@@ -110,7 +143,7 @@ const AReq_FormItems=()=>{
                                 ))}
                             </Select>
                         </FormControl>
-                        <Button type="submit" variant="contained" size="small" disableElevation>Añadir Item</Button>     
+                        <Button onClick={cargar} variant="contained" size="small" disableElevation>Añadir Item</Button>     
 
                 </FormControl>
             </form>
@@ -118,7 +151,38 @@ const AReq_FormItems=()=>{
                 title="Items"
                 columns={state.columns}
                 data={ReqItems}
+                editable={{
+                    onRowDelete: oldData =>
+                        new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                               if(ReqItems[0].id!=null){ 
+                                const dataDelete = [...ReqItems];
+                                const index = oldData.tableData.id;
+                                console.log(oldData.id)
+                                dataDelete.splice(index, 1);
+                                if(ReqItems[0].id!=oldData.id)
+                                setReqItems([...dataDelete]);
+                                else
+                                setReqItems([{id:null}])  
+                               }  
+                            resolve()
+                            }, 1000)
+                        }),
+                    }}
+         
+                cellEditable={{
+                    onCellEditApproved: (newValue, oldValue, rowData, columnDef) => {
+                      return new Promise((resolve, reject) => {
+                        console.log('newValue: ' + rowData.id_item);
+                          
+                         rowData.cantidad=newValue
+                        rowData.precio=rowData.precio_unitario*rowData.cantidad
+                        setTimeout(resolve, 1000);
+                      });
+                    }
+                  }}
             />
+            <Button onClick={fetchCargarRequisicion} variant="contained" size="small" disableElevation>CARGAR REQUISICION</Button>
         </div>
     )
 }
