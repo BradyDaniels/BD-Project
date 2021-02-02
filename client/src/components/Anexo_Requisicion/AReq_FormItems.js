@@ -24,7 +24,7 @@ const AReq_FormItems=({items,Rvalues})=>{
             { title: 'id', field: 'id_item', editable: 'never' },
             { title: 'Item', field: 'nombre' ,editable: 'never'},
             { title: 'Cantidad', field: 'cantidad_solicitada',type: 'numeric'},
-            { title: 'Precio', field: 'precio_estimado' ,type: 'numeric',editable: 'never'},
+            { title: 'Precio Estimado', field: 'precio_estimado' ,type: 'numeric',editable: 'never'},
         ],
         data: []
     })
@@ -108,7 +108,7 @@ const AReq_FormItems=({items,Rvalues})=>{
         <div className="form-container">
             <form onSubmit={handleSubmit}>
                 <FormControl  className="form-trabajador">
-                        <FormControl>
+                        {/* <FormControl>
                             <InputLabel id="dependencias-label">Linea de Suministro</InputLabel>
                             <Select
                                 labelId="dependencias-label"
@@ -124,7 +124,8 @@ const AReq_FormItems=({items,Rvalues})=>{
                                     </MenuItem>
                                 ))}
                             </Select>
-                        </FormControl>
+                        </FormControl> */}
+                        <br></br>
 
                         <FormControl>
                             <InputLabel id="dependencias-label">Items</InputLabel>
@@ -175,8 +176,9 @@ const AReq_FormItems=({items,Rvalues})=>{
                       return new Promise((resolve, reject) => {
                         console.log('newValue: ' + rowData.id_item);
                           
-                         rowData.cantidad=newValue
-                        rowData.precio=rowData.precio_unitario*rowData.cantidad
+                         rowData.cantidad_solicitada=newValue
+                        rowData.precio_estimado=rowData.precio*rowData.cantidad_solicitada
+                        console.log(ReqItems)
                         setTimeout(resolve, 1000);
                       });
                     }

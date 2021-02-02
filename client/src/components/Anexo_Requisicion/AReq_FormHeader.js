@@ -236,7 +236,7 @@ const AReq_FormHeader=()=>{
                             ))}
                         </Select>
                     </FormControl>
-                    <br></br> <br></br>  <br></br> <br></br>
+                    <br></br> <br></br> 
                     <FormControl>
                         <div className="form-trabajador-1">
                         <TextField
