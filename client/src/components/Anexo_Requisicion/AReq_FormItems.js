@@ -57,8 +57,8 @@ const AReq_FormItems=({items,Rvalues})=>{
        ReqItems.map((item,i)=>{
            if(item.id==values.id){
               aux=true
-            
-           }     
+             }
+             console.log(aux)     
        })
         
        return aux;
@@ -72,12 +72,13 @@ const AReq_FormItems=({items,Rvalues})=>{
                 if(ReqItems[0].id==null){
                         setReqItems([{id_requisicion:Rvalues.id,id:i,id_linea:item.id_linea,id_item:item.id,nombre:item.nombre,cantidad_solicitada:1,precio_estimado:item.precio_unitario,precio:item.precio_unitario}])
                 }
-                else if(!check() && values.id_linea==ReqItems[0].id_linea){
+                else if(!check() && Rvalues.id_linea==ReqItems[0].id_linea){
                     setReqItems(ReqItems.concat([{id_requisicion:Rvalues.id,id:i,id_linea:item.id_linea,id_item:item.id,nombre:item.nombre,cantidad_solicitada:1,precio_estimado:item.precio_unitario,precio:item.precio_unitario}]))
-                
+                    console.log("sexo")
                     }
           
             }
+            console.log(ReqItems)
         })
  
     }

@@ -26,13 +26,22 @@ const AReq_FormHeader=()=>{
         id: '',
         id_dependencia:'',
         id_linea:'',
-        fecha_emision:'',
+        fecha_emision: getLocalDate(),
         cedula_director:'',
         cedula_jefeunidad:'',
         observaciones:'',
         prioridad:'',
 
     }, proxy);
+
+    function getLocalDate() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = mm + '-' + dd + '-' + yyyy;
+        return today;
+    }
 
     const fetchLineaItems=()=>{
         if(values.id_linea==''){ 
@@ -127,13 +136,12 @@ const AReq_FormHeader=()=>{
                             value={values.id}
                             onChange={handleChange} />
                         <TextField
-                            className="text-field"
+                            className="text-field readonly"
                             size="small"
                             label="Fecha Emision"
                             name="fecha_emision"
                             variant="outlined"
-                            value={values.fecha_emision}
-                            onChange={handleChange} />
+                            value={getLocalDate()} />
                        
                         
                     </div>
