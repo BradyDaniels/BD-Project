@@ -23,6 +23,7 @@ const Sidebar = () => {
                 <NavLink to="/proveedor_cotizacion" className="sidebar-text" activeClassName="active-link">Proveedor-Cotizacion</NavLink>
                 <NavLink to="/proveedor_orden" className="sidebar-text" activeClassName="active-link">Proveedor-Ordenes</NavLink>
                 <NavLink to="/requisicion_cotizacion" className="sidebar-text" activeClassName="active-link">Requisicion-Cotizacion</NavLink>
+                <NavLink to="/respuestas" className="sidebar-text" activeClassName="active-link">Respuestas</NavLink>
         </div>
     </div>
   );  

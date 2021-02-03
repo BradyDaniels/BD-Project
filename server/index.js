@@ -25,6 +25,7 @@ const requicision_dependencia = require("../routes/requisicion_dependencia") //R
 const requisiciones = require("../routes/requisiciones.js")
 const respuestas = require("../routes/respuestas.js")
 const trabajadores = require ("../routes/trabajadores.js")
+const precio_total = require ("../routes/precio_total.js")
 
 //guardar credenciales de la bd
 // const pool = require('./db')
@@ -69,6 +70,7 @@ app.use(requicision_dependencia)
 app.use(requisiciones)
 app.use(respuestas)
 app.use(trabajadores)
+app.use(precio_total)
 
 const server = createServer(app)
 

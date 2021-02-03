@@ -21,6 +21,7 @@ import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom';
  import ProveedorCotizacion from "./components/ProveedorCotizacion/ProveedorCotizacion"
  import ProveedorOrden from "./components/ProveedorOrden/ProveedorOrden"
  import RequisicionCotizacion from "./components/RequisicionCotizacion/RequisicionCotizacion"
+ import Respuestas from "./components/Respuestas/Respuestas"
  import Sidebar from "./components/Sidebar/Sidebar"
 
  const App = () => {
@@ -46,6 +47,7 @@ import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom';
                 <Route path="/proveedor_cotizacion" component ={ProveedorCotizacion}/>
                 <Route path="/proveedor_orden" component ={ProveedorOrden}/>
                 <Route path="/requisicion_cotizacion" component ={RequisicionCotizacion}/>
+                <Route path="/respuestas" component ={Respuestas}/>
             </Switch>
           </div>
         </Router>
