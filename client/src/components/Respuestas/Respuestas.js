@@ -1,5 +1,5 @@
 import React from 'react';
-import RespuestasTable from './RespuestasTable'
+import RespuestasItemsTable from './RespuestasTable'
 import RespuestasForm from './RespuestasForm'
 
 const Respuestas = () => {
@@ -9,9 +9,9 @@ const Respuestas = () => {
             <div className="form-container">
                 <RespuestasForm />
             </div>
-            <div className="table-container">
-                <RespuestasTable />
-            </div>
+            {/* <div className="table-container">
+                <RespuestasItemsTable />
+            </div> */}
         </div>
     )
 }

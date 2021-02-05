@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import MaterialTable from 'material-table'
 
 // cedula, id_dependencia, nombre, tipo 
-const RespuestasTable = () => {
+const RespuestasItemsTable = () => {
     const [respuestas, setrespuestas] = useState([{}])
     const [state, setState] = useState({
         columns: [
@@ -23,7 +23,7 @@ const RespuestasTable = () => {
 
     //obtener todos los respuestas
     const fetchrespuestas = () => {
-        fetch('http://localhost:5000/respuestas')
+        fetch('http://localhost:5000/detalle_requisicion') //Filtrar por el ID
             .then(res => res.json())
             .then(result => setrespuestas(result))
             .catch(err => console.log(err.message))
@@ -99,4 +99,4 @@ const RespuestasTable = () => {
     )
 }
 
-export default RespuestasTable
+export default RespuestasItemsTable
