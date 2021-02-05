@@ -49,6 +49,21 @@ router.get("/requisiciones/:id", async(req, res) =>{
     }
 })
 
+
+router.get("/requisiciones_linea/:id_linea", async(req, res) =>{
+    try {
+        const { id_linea } = req.params;
+        const requisicion = await pool.query(
+            "SELECT * FROM requisicion WHERE id_linea = $1",
+            [id_linea]
+        );
+    res.json(requisicion.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
+
 //Update a Eequisiciones 
 
 router.put("/requisiciones/:id", async(req,res) =>{

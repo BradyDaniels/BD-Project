@@ -50,6 +50,20 @@ router.get("/detalle_requisicion/:id", async(req, res) =>{
     }
 })
 
+
+router.get("/detalle_requisicion_item/:id_requisicion", async(req, res) =>{
+    try {
+        const { id_requisicion } = req.params;
+        const item = await pool.query(
+            " SELECT item.nombre,detalle_requisicion.cantidad_solicitada,detalle_requisicion.precio_estimado FROM item,detalle_requisicion WHERE detalle_requisicion.id_requisicion=$1 AND item.id=detalle_requisicion.id_item",
+            [id_requisicion]
+        );
+    res.json(item.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 //Update a detalle_requisicion revisar
 
 router.put("/detalle_requisicion/:id", async(req,res) =>{

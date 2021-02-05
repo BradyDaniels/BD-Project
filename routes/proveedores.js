@@ -49,6 +49,19 @@ router.get("/proveedores/:id", async(req, res) =>{
     }
 })
 
+router.get("/proveedores_linea/:id_linea", async(req, res) =>{
+    try {
+        const { id_linea } = req.params;
+        const proveedor = await pool.query(
+            " SELECT proveedor.rif,proveedor.razon_social,proveedor.telefono,proveedor.correo,proveedor.direccion FROM proveedor,linea_proveedor  WHERE linea_proveedor.id_linea=$1 AND linea_proveedor.rif=proveedor.rif",
+            [id_linea]
+        );
+    res.json(proveedor.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 //Update a Proveedorr
 
 router.put("/proveedores/:id", async(req,res) =>{

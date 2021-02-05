@@ -19,17 +19,15 @@ const CotizacionesForm = () => {
     const [linea, setlinea] = useState([{}])
     const [proveedor, setProveedores] = useState([{}])
 
-    
     const [DetalleRequisicion, setDetalleRequisicion] = useState([{}]);
 
     const [toggle, setToggle] = useState(false)
 
     const [ state, setState ] = useState({
         columns: [
-            {title: 'ID', field: 'id_requisicion', editable: 'never'},
+            {title: 'Nombre', field: 'nombre', editable: 'never'},
             {title: 'Cantidad Solicitada', field: 'cantidad_solicitada'},
             {title: 'Precio Estimado', field: 'precio_estimado'},
-            {title: 'ID Item', field: 'id_item'},
         ],
         data: []
     })
@@ -42,7 +40,7 @@ const CotizacionesForm = () => {
         observaciones: '',
         condiciones_entrega:'',
         id_requisicion: '',
-        rif_proveedor: ''
+        rif: ''
         //id_cotizacion: ''
     }, proxy)
 
@@ -58,27 +56,34 @@ const CotizacionesForm = () => {
     }
 
     const fetchRequisiciones = () => {
-        fetch('http://localhost:5000/requisiciones')
-            .then(res => res.json())
-            .then(result => setReq(result))
-            .catch(err => console.log(err.message))
+        const GetRequisiciones=fetch(`http://localhost:5000/requisiciones_linea/${values.id_linea}`, {
+             method: 'GET',
+             headers: { 'Content-type': 'application/json' }
+         })
+             .then(res => res.json())
+             .then(result => setReq(result))
+             .catch(err => console.log(err.message))
     }
 
     const fetchProveedores = () => {
-        fetch('http://localhost:5000/proveedores')
-            .then(res => res.json())
-            .then(result => setProveedores(result))
-            .catch(err => console.log(err.message))
+        fetchRequisiciones()
+        const GetProveedores=fetch(`http://localhost:5000/proveedores_linea/${values.id_linea}`, {
+             method: 'GET',
+             headers: { 'Content-type': 'application/json' }
+         })
+             .then(res => res.json())
+             .then(result =>  setProveedores(result))
+             .catch(err => console.log(err.message))
     }
 
     const fetchDetalleRequisicion = () => {
         if(values.id_requisicion==''){
-        fetch('http://localhost:5000/detalle_requisicion/')
+        fetch('http://localhost:5000/detalle_requisicion')
             .then(res => res.json())
             .then(result => setDetalleRequisicion(result))
             .catch(err => console.log(err.message))
         }else{
-            const GetItems=fetch(`http://localhost:5000/detalle_requisicion/${values.id_requisicion}`, {
+            const GetItems=fetch(`http://localhost:5000/detalle_requisicion_item/${values.id_requisicion}`, {
              method: 'GET',
              headers: { 'Content-type': 'application/json' }
          })
@@ -88,6 +93,8 @@ const CotizacionesForm = () => {
         }
 
     }
+
+  
 
     function getLocalDate() {
         var today = new Date();
@@ -104,6 +111,36 @@ const CotizacionesForm = () => {
         fetchDetalleRequisicion()
         fetchProveedores()
     }, [])
+
+    const fetchCargarCotizacion=()=>{
+        fetch(`http://localhost:5000/cotizaciones`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(values)
+        })
+            .then(res => res.json())
+            .then(result => console.log(result))
+            .catch(err => console.log(err.message))
+
+        fetch(`http://localhost:5000/requisicion_cotizacion`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({id_cotizacion:values.id,id_requisicion:values.id_requisicion})
+        })
+            .then(res => res.json())
+            .then(result => console.log(result))
+            .catch(err => console.log(err.message)) 
+      
+        
+        fetch(`http://localhost:5000/proveedor_cotizacion`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({id_cotizacion:values.id,rif:values.rif})
+        })
+            .then(res => res.json())
+            .then(result => console.log(result))
+            .catch(err => console.log(err.message))   
+    }
 
     return (
         <div className="form-container">
@@ -153,7 +190,7 @@ const CotizacionesForm = () => {
                             onBlur={handleChange}
                         >
                             {linea.map((lineas, i) => (
-                                <MenuItem value={lineas.id} key={i}>
+                                <MenuItem value={lineas.id} key={i} onClick={fetchProveedores}>
                                     {lineas.descripcion}
                                 </MenuItem>
                             ))}
@@ -164,8 +201,8 @@ const CotizacionesForm = () => {
                         <Select
                             labelId="lineas-label"
                             id="proveedor"
-                            value={values.rif_proveedor}
-                            name="rif_proveedor"
+                            value={values.rif}
+                            name="rif"
                             onChange={handleChange}
                             onBlur={handleChange}
                         >
@@ -187,13 +224,13 @@ const CotizacionesForm = () => {
                             onBlur={handleChange}
                         >
                             {req.map((req, i) => (
-                                <MenuItem value={req.id} key={i}>
+                                <MenuItem value={req.id} key={i} onClick={fetchDetalleRequisicion}>
                                     {req.id}
                                 </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
-                    <Button type="submit" variant="contained" size="small" disableElevation>Añadir Cotizacion</Button>
+                    <Button variant="contained" size="small" disableElevation onClick={fetchCargarCotizacion}>Añadir Cotizacion</Button>
                 </FormControl>
             </form>
             
