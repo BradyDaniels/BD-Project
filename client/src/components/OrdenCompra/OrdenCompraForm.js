@@ -17,18 +17,19 @@ const OrdenCompraForm = () => {
     const [trabajadores, settrabajadores] = useState([{}])
     const [cotizaciones, setCotizaciones] = useState([{}])
     const [precioTotal, setPrecioTotal] = useState([{}])
+    const [respuestas, setRespuestas] = useState([{}])
+    const [subtotal, setSubtotal] = useState([{}])
     
-    const [DetalleRequisicion, setDetalleRequisicion] = useState([{}]);
+    const [DetalleCompra, setDetalleCompra] = useState([{}]);
 
     
     const [toggle, setToggle] = useState(false)
 
     const [ state, setState ] = useState({
         columns: [
-            {title: 'ID', field: 'id', editable: 'never'},
-            {title: 'Cantidad Solicitada', field: 'cantidad_solicitada'},
-            {title: 'Precio Estimado', field: 'precio_estimado'},
-            {title: 'ID Item', field: 'id_item'},
+            {title: 'ID Item', field: 'id_item', editable: 'never'},
+            {title: 'Cantidad', field: 'cantidad'},
+            {title: 'Precio Compra', field: 'precio_compra'},
         ],
         data: []
     })
@@ -46,12 +47,12 @@ const OrdenCompraForm = () => {
         observaciones_entrega: '',
     }, proxy)
 
-    
+    const iva = .12;
 
     const toggleSelect = ({ target }) => setToggle(target.value == "" ? true : false)
 
     const fetchtrabajadores = () => {
-        fetch('http://localhost:5000/trabajadores')
+        fetch('http://localhost:5000/directores')
             .then(res => res.json())
             .then(result => settrabajadores(result))
             .catch(err => console.log(err.message))
@@ -63,24 +64,75 @@ const OrdenCompraForm = () => {
             .then(result => setCotizaciones(result))
             .catch(err => console.log(err.message))
     }
-    const fetchPrecioTotal = () => { //Bueno aqui toca poner que llame con el id
-        fetch('http://localhost:5000/precio_total/')
-            .then(res => res.json())
-            .then(result => setPrecioTotal(result))
-            .catch(err => console.log(err.message))
-    }
-    //obtener todas las DetalleRequisicion
-    const fetchDetalleRequisicion = () => {
-        fetch('http://localhost:5000/detalle_requisicion')
-            .then(res => res.json())
-            .then(result => setDetalleRequisicion(result))
-            .catch(err => console.log(err.message))
+
+    
+    //obtener todas las DetalleCompra
+    const fetchDetalleCompra = () => {
+        if(values.id_respuesta == undefined){
+            console.log("No hay Respuesta")
+         fetch('http://localhost:5000/detalle_compra')
+             .then(res => res.json())
+             .then(result => setDetalleCompra(result))
+             .catch(err => console.log(err.message))
+          
+        }
+        else{
+            console.log("Hay una Respuesta")
+         const GetDetalleCompra=fetch(`http://localhost:5000/detallecomprarespuesta/${values.id_respuesta}`, {
+             method: 'GET',
+             headers: { 'Content-type': 'application/json' }
+         })
+             .then(res => res.json())
+             .then(result => setDetalleCompra(result))
+             .catch(err => console.log(err.message))
+        
+        }
     }
 
+    const fetchRespuestas = () => {
+        if(values.id_cotizacion == undefined){
+         fetch('http://localhost:5000/respuestas')
+             .then(res => res.json())
+             .then(result => setRespuestas(result))
+             .catch(err => console.log(err.message))
+          
+        }
+        else{
+         const GetRespuestas=fetch(`http://localhost:5000/respuesta_cotizacion/${values.id_cotizacion}`, {
+             method: 'GET',
+             headers: { 'Content-type': 'application/json' }
+         })
+             .then(res => res.json())
+             .then(result => setRespuestas(result))
+             .catch(err => console.log(err.message))
+        
+        }
+    }
+    const fetchSubtotal = () => {
+        if(values.id_respuesta == undefined){
+            console.log("Subtotal Vacio")
+        //  fetch('http://localhost:5000/subtotal')
+        //      .then(res => res.json())
+        //      .then(result => setSubtotal(result))
+        //      .catch(err => console.log(err.message))
+          
+        }
+        else{
+            console.log ("Subtotal antes del fetch")
+         const GetSubtotal=fetch(`http://localhost:5000/subtotal/${values.id_respuesta}`, {
+             method: 'GET',
+             headers: { 'Content-type': 'application/json' }
+         })
+             .then(res => res.json())
+             .then(result => setSubtotal(result))
+             .catch(err => console.log(err.message))
+        
+        }
+    }
     //eliminar una Detalle Requisicion
-    const deleteDetalleRequisicion = (id) => {
+    const deleteDetalleCompra = (id) => {
         console.log(id)
-        fetch(`http://localhost:5000/detalle_requisicion/${id}`, {
+        fetch(`http://localhost:5000/detalle_compra/${id}`, {
             method: 'DELETE',
             headers: { 'Content-type': 'application/json' }
         })
@@ -90,10 +142,10 @@ const OrdenCompraForm = () => {
     }
 
     //actualizar una Detalle Requisicion
-    const updateDetalleRequisicion = (detalleRequisicion) => {
-        console.log(detalleRequisicion)
-        const { id, cantidad_solicitada, precio_estimado, id_requisicion, id_item } = detalleRequisicion;
-        const updateDR = fetch(`http://localhost:5000/detalle_requisicion/${id}`, {
+    const updateDetalleCompra = (DetalleCompra) => {
+        console.log(DetalleCompra)
+        const { id, cantidad_solicitada, precio_estimado, id_requisicion, id_item } = DetalleCompra;
+        const updateDR = fetch(`http://localhost:5000/detalle_compra/${id}`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({ id, cantidad_solicitada, precio_estimado, id_requisicion, id_item })
@@ -101,7 +153,6 @@ const OrdenCompraForm = () => {
             .then(res => res.json())
             .then(result => console.log(result))
             .catch(err => console.log(err.message))
-        console.log(updateDR)
     }
 
     
@@ -117,15 +168,23 @@ const OrdenCompraForm = () => {
     useEffect(() => {
         fetchtrabajadores()
         fetchCotizaciones()
-        fetchPrecioTotal()
-        fetchDetalleRequisicion();
+        fetchDetalleCompra();
+        fetchRespuestas();
     }, [])
 
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit}>
                 
-                <FormControl className="form-trabajador">  
+                <FormControl className="form-trabajador">
+                <TextField
+                            className="text-field"
+                            size="small"
+                            label="ID Orden"
+                            name="id"
+                            variant="outlined"
+                            value={values.id}
+                            onChange={handleChange} />   
                 <FormControl>
                         <InputLabel id="cotizacion-label">Cotizacion</InputLabel>
                         <Select
@@ -137,40 +196,83 @@ const OrdenCompraForm = () => {
                             onBlur={handleChange}
                         >
                             {cotizaciones.map((cotizaciones, i) => (
-                                <MenuItem value={cotizaciones.id} key={i}>
+                                <MenuItem value={cotizaciones.id} key={i}  onClick = {fetchRespuestas}>
                                     {cotizaciones.id}
                                 </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
-                    
+                    <FormControl>
+                        <InputLabel id="proveedor-label">Respuesta</InputLabel>
+                        <Select
+                            labelId="proveedor-label"
+                            id="respuestas"
+                            value={values.id_respuesta}
+                            name="id_respuesta"
+                            onChange={handleChange}
+                            onBlur={handleChange}
+                        >
+                            {respuestas.map((respuestas, i) => (
+                                <MenuItem value={respuestas.id} key={i} onClick = {fetchDetalleCompra, fetchSubtotal}>
+                                    {respuestas.id}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     
                     <br></br>
                     <div className="form-trabajador-1">
+                            <TextField
+                                className="text-field"
+                                size="small"
+                                label="Fecha de Emision"
+                                name="fecha_orden"
+                                variant="outlined"
+                                // Se quito el ConChange
+                                value={getLocalDate()} />
+                            
                         <TextField
                             className="text-field"
                             size="small"
-                            label="ID Respuesta"
-                            name="id"
+                            label="Fecha de Entrega"
+                            name="fecha_entrega"
                             variant="outlined"
-                            value={values.id}
+                            value={values.fecha_entrega}
                             onChange={handleChange} />
+                            <br></br><br></br>
+                        <div>
                         <TextField
                             className="text-field"
                             size="small"
-                            label="Precio Total"
+                            label="Subtotal"
+                            name="subtotal"
+                            variant="outlined"
+                            // Se quito el ConChange
+                            value={values.setSubtotal} />  
+                        </div>      
+                        <div>
+                        <TextField
+                            className="text-field"
+                            size="small"
+                            label="IVA"
+                            name="iva"
+                            variant="outlined"
+                            // Se quito el ConChange
+                            value={iva} />     
+                        </div>
+                        <TextField
+                            className="text-field"
+                            size="small"
+                            label="Monto Total"
                             name="precio_total"
                             variant="outlined"
                             // Se quito el ConChange
-                            value={values.precio_total} />
-                            <br></br>
-                       
-                            
-                        <RadioGroup aria-label="Tipo de Moneda" name="tipo_moneda" value={values.tipo_moneda} onChange={handleChange}>
+                            value={values.precio_total} />     
+                    </div>
+                   <RadioGroup aria-label="Tipo de Moneda" name="tipo_moneda" value={values.tipo_moneda} onChange={handleChange}>
                             <FormControlLabel onClick={toggleSelect} value="bolivares" control={<Radio />} label="Bolivares" />
                             <FormControlLabel onClick={toggleSelect} value="divisas" control={<Radio />} label="Divisas" />
                         </RadioGroup>
-                    </div>
                     <br></br>
                     <RadioGroup aria-label="Formato de Pago" name="formato_pago" value={values.formato_pago} onChange={handleChange}>
                         <FormControlLabel onClick={toggleSelect} value="contado" control={<Radio />} label="Contado" />
@@ -188,7 +290,7 @@ const OrdenCompraForm = () => {
                         <TextField
                             className="text-field"
                             size="small"
-                            label="Observaciones de Entrega"
+                            label="Condiciones de Entrega"
                             name="observaciones_entrega"
                             variant="outlined"
                             value={values.observaciones_entrega} 
@@ -198,8 +300,8 @@ const OrdenCompraForm = () => {
                         <Select
                             labelId="proveedor-label"
                             id="trabajadores"
-                            value={values.rif}
-                            name="rif"
+                            value={values.cedula_director}
+                            name="cedula_director"
                             onChange={handleChange}
                             onBlur={handleChange}
                         >
@@ -216,9 +318,9 @@ const OrdenCompraForm = () => {
             <br></br>
             
         <MaterialTable
-            title="Detalles de Requisicion"
+            title="Detalles de Compra"
             columns={state.columns}
-            data={DetalleRequisicion}
+            data={DetalleCompra}
             options={{
                 filtering: true
               }}
@@ -231,7 +333,7 @@ const OrdenCompraForm = () => {
                                 setState((prevState) => {
                                     const data = [...prevState.data];
                                     data[data.indexOf(oldData)] = newData;
-                                    updateDetalleRequisicion(newData);//AQUI SE ACTUALIZA EL CAMPO
+                                    updateDetalleCompra(newData);//AQUI SE ACTUALIZA EL CAMPO
                                     console.log(newData);
                                     return { ...prevState, data };
                                 });
@@ -240,7 +342,7 @@ const OrdenCompraForm = () => {
                     }),
                 onRowDelete: (oldData) =>
                     new Promise((resolve) => {
-                        deleteDetalleRequisicion(oldData.id);//AQUI SE DELETEA LA ESPECIALIDAD
+                        deleteDetalleCompra(oldData.id);//AQUI SE DELETEA LA ESPECIALIDAD
                         console.log(oldData.id);
                         setTimeout(() => {
                             resolve();
@@ -255,9 +357,8 @@ const OrdenCompraForm = () => {
         />
             
         </div>
-
         
-    )
+        )
 }
 
 export default OrdenCompraForm

@@ -26,7 +26,7 @@ router.post("/directores", async(req, res)=> {
 router.get ("/directores", async (req, res) =>{
     try {
         const allDirectores = await pool.query(
-            "SELECT * FROM director"
+            "SELECT * FROM trabajador WHERE tipo = 'D'"
         );
     res.json(allDirectores.rows);
     } catch (err) {
