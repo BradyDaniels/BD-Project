@@ -18,7 +18,10 @@ const OrdenCompraForm = () => {
     const [cotizaciones, setCotizaciones] = useState([{}])
     const [precioTotal, setPrecioTotal] = useState([{}])
     const [respuestas, setRespuestas] = useState([{}])
-    const [subtotal, setSubtotal] = useState([{}])
+    var [subtotal, setSubtotal] = useState([{}])
+    //var subtotal = 0;
+
+    const iva = 0.12
     
     const [DetalleCompra, setDetalleCompra] = useState([{}]);
 
@@ -34,7 +37,7 @@ const OrdenCompraForm = () => {
         data: []
     })
     
-    const proxy = 'respuestas'
+    const proxy = 'orden_compra'
     const { handleChange, handleSubmit, values } = useForm({
         id: '',
         fecha_orden: getLocalDate(),
@@ -44,10 +47,9 @@ const OrdenCompraForm = () => {
         tipo_moneda: '',
         cedula_director: '',
         observaciones: '',
-        observaciones_entrega: '',
+        condiciones_entrega: '',
     }, proxy)
 
-    const iva = .12;
 
     const toggleSelect = ({ target }) => setToggle(target.value == "" ? true : false)
 
@@ -124,7 +126,9 @@ const OrdenCompraForm = () => {
              headers: { 'Content-type': 'application/json' }
          })
              .then(res => res.json())
-             .then(result => setSubtotal(result))
+             //.then(result => console.log(result))
+             .then (result => subtotal = result[0] ) 
+             .then (() => console.log(subtotal.sum)) 
              .catch(err => console.log(err.message))
         
         }
@@ -164,12 +168,12 @@ const OrdenCompraForm = () => {
         today = mm + '-' + dd + '-' + yyyy;
         return today;
     }
-
+    
     useEffect(() => {
         fetchtrabajadores()
         fetchCotizaciones()
-        fetchDetalleCompra();
         fetchRespuestas();
+        fetchSubtotal()
     }, [])
 
     return (
@@ -213,7 +217,7 @@ const OrdenCompraForm = () => {
                             onBlur={handleChange}
                         >
                             {respuestas.map((respuestas, i) => (
-                                <MenuItem value={respuestas.id} key={i} onClick = {fetchDetalleCompra, fetchSubtotal}>
+                                <MenuItem value={respuestas.id} key={i} onClick = {fetchDetalleCompra}>
                                     {respuestas.id}
                                 </MenuItem>
                             ))}
@@ -248,7 +252,8 @@ const OrdenCompraForm = () => {
                             name="subtotal"
                             variant="outlined"
                             // Se quito el ConChange
-                            value={values.setSubtotal} />  
+                            value={subtotal} 
+                            onChange={handleChange} /> 
                         </div>      
                         <div>
                         <TextField
@@ -258,16 +263,18 @@ const OrdenCompraForm = () => {
                             name="iva"
                             variant="outlined"
                             // Se quito el ConChange
-                            value={iva} />     
+                            value={iva} 
+                            onChange={handleChange} />     
                         </div>
                         <TextField
                             className="text-field"
                             size="small"
                             label="Monto Total"
-                            name="precio_total"
+                            name="monto_total"
                             variant="outlined"
                             // Se quito el ConChange
-                            value={values.precio_total} />     
+                            value={values.monto_total} 
+                            onChange={handleChange} />     
                     </div>
                    <RadioGroup aria-label="Tipo de Moneda" name="tipo_moneda" value={values.tipo_moneda} onChange={handleChange}>
                             <FormControlLabel onClick={toggleSelect} value="bolivares" control={<Radio />} label="Bolivares" />
@@ -291,9 +298,9 @@ const OrdenCompraForm = () => {
                             className="text-field"
                             size="small"
                             label="Condiciones de Entrega"
-                            name="observaciones_entrega"
+                            name="condiciones_entrega"
                             variant="outlined"
-                            value={values.observaciones_entrega} 
+                            value={values.condiciones_entrega} 
                             onChange={handleChange}/>
                     <FormControl>
                         <InputLabel id="proveedor-label">Director</InputLabel>
@@ -333,7 +340,7 @@ const OrdenCompraForm = () => {
                                 setState((prevState) => {
                                     const data = [...prevState.data];
                                     data[data.indexOf(oldData)] = newData;
-                                    updateDetalleCompra(newData);//AQUI SE ACTUALIZA EL CAMPO
+                                   // updateDetalleCompra(newData);//AQUI SE ACTUALIZA EL CAMPO
                                     console.log(newData);
                                     return { ...prevState, data };
                                 });
@@ -342,7 +349,7 @@ const OrdenCompraForm = () => {
                     }),
                 onRowDelete: (oldData) =>
                     new Promise((resolve) => {
-                        deleteDetalleCompra(oldData.id);//AQUI SE DELETEA LA ESPECIALIDAD
+                       // deleteDetalleCompra(oldData.id);//AQUI SE DELETEA LA ESPECIALIDAD
                         console.log(oldData.id);
                         setTimeout(() => {
                             resolve();

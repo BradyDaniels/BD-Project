@@ -9,10 +9,10 @@ const pool = require("../server/db");
 
 router.post("/orden_compra", async(req, res)=> {
     try {
-       const { id, razon_social, fecha_orden, monto_total, fecha_emision, formato_pago, tipo_moneda, cedula_director  } = req.body;
+       const { id, fecha_orden, monto_total, fecha_entrega, formato_pago, tipo_moneda, cedula_director, observaciones, condiciones_entrega  } = req.body;
        const newOrdenCompra = await pool.query(
-           "INSERT INTO orden_compra (id, fecha_orden, monto_total, fecha_entrega, formato_pago, tipo_moneda, cedula_director, observaciones, condiciones_entrega) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
-           [ id, razon_social, fecha_orden, monto_total, fecha_emision, formato_pago, tipo_moneda, cedula_director ]
+           "INSERT INTO orden_compra (id, fecha_orden, monto_total, fecha_entrega, formato_pago, tipo_moneda, cedula_director, observaciones, condiciones_entrega ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
+           [ id, fecha_orden, monto_total, fecha_entrega, formato_pago, tipo_moneda, cedula_director, observaciones, condiciones_entrega ]
         );
 
     res.json(newOrdenCompra.rows[0]);
