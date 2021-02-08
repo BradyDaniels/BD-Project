@@ -48,6 +48,19 @@ router.get("/requisicion_cotizacion/:id", async(req, res) =>{
     }
 })
 
+router.get("/requisicion_cotizacion_c/:id", async(req, res) =>{
+    try {
+        const { id } = req.params;
+        const RequisicionCotizacion = await pool.query(
+            "SELECT id_requisicion FROM requisicion_cotizacion WHERE id_cotizacion = $1", //Revisar como hacer el get
+            [id]
+        );
+    res.json(RequisicionCotizacion.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 //Update a Requisicion Cotizacion Revisar No creo que se use
 
 router.put("/requisicion_cotizacion/:id", async(req,res) =>{

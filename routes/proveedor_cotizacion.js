@@ -48,6 +48,19 @@ router.get("/proveedor_cotizacion/:id", async(req, res) =>{
     }
 })
 
+router.get("/proveedor_cotizacion_p/:id_cotizacion", async(req, res) =>{
+    try {
+        const { id_cotizacion } = req.params;
+        const ProveedorCotizacion = await pool.query(
+            "SELECT proveedor.rif,proveedor.razon_social FROM proveedor,proveedor_cotizacion WHERE proveedor_cotizacion.id_cotizacion=$1 AND proveedor_cotizacion.rif=proveedor.rif", //Revisar como hacer el get
+            [id_cotizacion]
+        );
+    res.json(ProveedorCotizacion.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 //Update a Proveedor Cotizacion Revisar
 
 router.put("/proveedor_cotizacion/:id", async(req,res) =>{

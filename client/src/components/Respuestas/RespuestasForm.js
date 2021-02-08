@@ -20,6 +20,9 @@ const RespuestasForm = () => {
     
     const [DetalleRequisicion, setDetalleRequisicion] = useState([{}]);
 
+    const [auxs,setAuxs]=useState([{}])
+    
+    const [reqID,setreqID]=useState([{id_requisicion:-1}]);
     
     const [toggle, setToggle] = useState(false)
 
@@ -47,11 +50,24 @@ const RespuestasForm = () => {
 
     const toggleSelect = ({ target }) => setToggle(target.value == "" ? true : false)
 
-    const fetchProveedores = () => {
-        fetch('http://localhost:5000/proveedores')
+    const fetchRequisiciones=()=>{
+        const GetRequisiciones=fetch(`http://localhost:5000/requisicion_cotizacion_c/${values.id_cotizacion}`, {
+            method: 'GET',
+            headers: { 'Content-type': 'application/json' }
+        })
             .then(res => res.json())
-            .then(result => setProveedores(result))
+            .then(result => setreqID(result))
             .catch(err => console.log(err.message))
+    }
+
+    const fetchProveedores = () => {
+        const GetProveedores=fetch(`http://localhost:5000/proveedor_cotizacion_p/${values.id_cotizacion}`, {
+             method: 'GET',
+             headers: { 'Content-type': 'application/json' }
+         })
+             .then(res => res.json())
+             .then(result => setProveedores(result))
+             .catch(err => console.log(err.message))
     }
 
     const fetchCotizaciones = () => {
@@ -68,10 +84,30 @@ const RespuestasForm = () => {
     }
     //obtener todas las DetalleRequisicion
     const fetchDetalleRequisicion = () => {
+
+      
+
         fetch('http://localhost:5000/detalle_requisicion')
             .then(res => res.json())
-            .then(result => setDetalleRequisicion(result))
+            .then(result => setAuxs(result))
             .catch(err => console.log(err.message))
+
+       console.log('reqID content: ',reqID)
+       if(reqID[0].id_requisicion!=-1){
+        reqID.map((requiID,i)=>{
+                    if(i==0){
+                     console.log('Entro')   
+                     setAuxs({id:-1})
+            
+                    } 
+                    else{ 
+                     setDetalleRequisicion(DetalleRequisicion.concat(auxs.filter(aux=>requiID.id_requisicion==aux.id_requisicion)))
+                    }
+                    console.log('iter: ',i,auxs)
+                
+        })
+       } 
+    
     }
 
     //eliminar una Detalle Requisicion
@@ -101,6 +137,12 @@ const RespuestasForm = () => {
         console.log(updateDR)
     }
 
+    const fetchProCotiza=()=>{
+        fetchRequisiciones()
+        fetchProveedores()
+        fetchDetalleRequisicion()
+    }
+
     useEffect(() => {
         fetchProveedores()
         fetchCotizaciones()
@@ -124,7 +166,7 @@ const RespuestasForm = () => {
                             onBlur={handleChange}
                         >
                             {cotizaciones.map((cotizaciones, i) => (
-                                <MenuItem value={cotizaciones.id} key={i}>
+                                <MenuItem value={cotizaciones.id} key={i} onClick={fetchProCotiza}>
                                     {cotizaciones.id}
                                 </MenuItem>
                             ))}
