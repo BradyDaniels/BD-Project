@@ -26,6 +26,9 @@ const requisiciones = require("../routes/requisiciones.js")
 const respuestas = require("../routes/respuestas.js")
 const trabajadores = require ("../routes/trabajadores.js")
 const precio_total = require ("../routes/precio_total.js")
+const respuesta_cotizacion = require ("../routes/respuestacotizacion")
+const subtotal = require ("../routes/subtotal")
+const detalleCompraRespuesta = require ("../routes/detalleCompraRespuesta")
 
 //guardar credenciales de la bd
 // const pool = require('./db')
@@ -71,6 +74,9 @@ app.use(requisiciones)
 app.use(respuestas)
 app.use(trabajadores)
 app.use(precio_total)
+app.use(respuesta_cotizacion)
+app.use(subtotal)
+app.use(detalleCompraRespuesta)
 
 const server = createServer(app)
 

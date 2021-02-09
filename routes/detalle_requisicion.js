@@ -84,10 +84,10 @@ router.put("/detalle_requisicion/:id", async(req,res) =>{
 
 router.delete ("/detalle_requisicion/:id", async (req,res) =>{
     try {
-        const { id } = req.params;
+        const { id,id_item } = req.body;
         const deleteDetalleReq = await pool.query(
-            "DELETE FROM detalle_requisicion WHERE id = $1", //Revisar
-            [id]
+            "DELETE FROM detalle_requisicion WHERE id_requisicon = $1 AND item_id = $2", //Revisar
+            [id, id_item]
         );
     res.json("Detalle Requisicion was deleted");
     } catch (err) {
