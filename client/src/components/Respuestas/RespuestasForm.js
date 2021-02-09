@@ -16,13 +16,14 @@ import MaterialTable from 'material-table'
 const RespuestasForm = () => {
     const [proveedores, setProveedores] = useState([{}])
     const [cotizaciones, setCotizaciones] = useState([{}])
+    const [requisiciones, setRequisiciones] = useState([{}])
     const [precioTotal, setPrecioTotal] = useState([{}])
     
     const [DetalleRequisicion, setDetalleRequisicion] = useState([{}]);
 
     const [auxs,setAuxs]=useState([{}])
     
-    const [reqID,setreqID]=useState([{id_requisicion:-1}]);
+    const [reqID,setreqID]=useState([{/*id_requisicion:-1*/}]);
     
     const [toggle, setToggle] = useState(false)
 
@@ -50,15 +51,39 @@ const RespuestasForm = () => {
 
     const toggleSelect = ({ target }) => setToggle(target.value == "" ? true : false)
 
-    const fetchRequisiciones=()=>{
-        const GetRequisiciones=fetch(`http://localhost:5000/requisicion_cotizacion_c/${values.id_cotizacion}`, {
-            method: 'GET',
-            headers: { 'Content-type': 'application/json' }
-        })
-            .then(res => res.json())
-            .then(result => setreqID(result))
-            .catch(err => console.log(err.message))
+    const fetchRequisiciones = () => {
+        if(values.id_cotizacion == undefined){
+            console.log("No hay Cotizacion")
+         fetch(`http://localhost:5000/requisicion_cotizacion_c/${values.id_cotizacion}`)
+             .then(res => res.json())
+             .then(result => setRequisiciones(result))
+             .catch(err => console.log(err.message))
+          
+        }
+        else{
+            console.log("Hay una Cotizacion")
+            console.log("Cotizacion: "+values.id_cotizacion)
+         const GetRequisicion=fetch(`http://localhost:5000/requisicion_cotizacion_c/${values.id_cotizacion}`, {
+             method: 'GET',
+             headers: { 'Content-type': 'application/json' }
+         })
+             .then(res => res.json())
+             .then(result => setRequisiciones(result))
+             .catch(err => console.log(err.message))
+        
+        }
     }
+    
+    // const fetchRequisiciones=()=>{
+    //     const GetRequisiciones=fetch(`http://localhost:5000/requisicion_cotizacion_c/${values.id_cotizacion}`, {
+    //         method: 'GET',
+    //         headers: { 'Content-type': 'application/json' }
+    //     })
+    //         .then(res => res.json())
+    //         .then(result => setreqID(result))
+    //         .then (result => console.log(result))
+    //         .catch(err => console.log(err.message))
+    // }
 
     const fetchProveedores = () => {
         const GetProveedores=fetch(`http://localhost:5000/proveedor_cotizacion_p/${values.id_cotizacion}`, {
@@ -82,33 +107,55 @@ const RespuestasForm = () => {
             .then(result => setPrecioTotal(result))
             .catch(err => console.log(err.message))
     }
+
+
     //obtener todas las DetalleRequisicion
+
     const fetchDetalleRequisicion = () => {
-
-      
-
-        fetch('http://localhost:5000/detalle_requisicion')
-            .then(res => res.json())
-            .then(result => setAuxs(result))
-            .catch(err => console.log(err.message))
-
-       console.log('reqID content: ',reqID)
-       if(reqID[0].id_requisicion!=-1){
-        reqID.map((requiID,i)=>{
-                    if(i==0){
-                     console.log('Entro')   
-                     setAuxs({id:-1})
-            
-                    } 
-                    else{ 
-                     setDetalleRequisicion(DetalleRequisicion.concat(auxs.filter(aux=>requiID.id_requisicion==aux.id_requisicion)))
-                    }
-                    console.log('iter: ',i,auxs)
-                
-        })
-       } 
-    
+        if(values.id_requisicion == undefined){
+            console.log("No hay Requisicion")
+         fetch('http://localhost:5000/detalle_requisicion')
+             .then(res => res.json())
+             .then(result => setDetalleRequisicion(result))
+             .catch(err => console.log(err.message))
+          
+        }
+        else{
+         const GetDetalleRequisicion=fetch(`http://localhost:5000/detalle_requisicion/${values.id_requisicion}`, {
+             method: 'GET',
+             headers: { 'Content-type': 'application/json' }
+         })
+             .then(res => res.json())
+             .then(result => setDetalleRequisicion(result))
+             .catch(err => console.log(err.message))
+        
+        }
     }
+
+    // const fetchDetalleRequisicion = () => {
+
+    //     fetch('http://localhost:5000/detalle_requisicion')
+    //         .then(res => res.json())
+    //         .then(result => setDetalleRequisicion(result))
+    //         .catch(err => console.log(err.message))
+
+    //    console.log('reqID content: ',reqID)
+    //    if(reqID[0].id_requisicion!=-1){
+    //     reqID.map((requiID,i)=>{
+    //                 if(i==0){
+    //                  console.log('Entro')   
+    //                  setAuxs({id:-1})
+            
+    //                 } 
+    //                 else{ 
+    //                  setDetalleRequisicion(DetalleRequisicion.concat(auxs.filter(aux=>requiID.id_requisicion==aux.id_requisicion)))
+    //                 }
+    //                 console.log('iter: ',i,auxs)
+                
+    //     })
+    //    } 
+    
+    //}
 
     //eliminar una Detalle Requisicion
     const deleteDetalleRequisicion = (id) => {
@@ -140,7 +187,7 @@ const RespuestasForm = () => {
     const fetchProCotiza=()=>{
         fetchRequisiciones()
         fetchProveedores()
-        fetchDetalleRequisicion()
+        //fetchDetalleRequisicion()
     }
 
     useEffect(() => {
@@ -186,6 +233,23 @@ const RespuestasForm = () => {
                             {proveedores.map((proveedores, i) => (
                                 <MenuItem value={proveedores.rif} key={i}>
                                     {proveedores.razon_social}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl> 
+                    <FormControl>
+                        <InputLabel id="requisiciones-label">Requisicion</InputLabel>
+                        <Select
+                            labelId="requisicion-label"
+                            id="requisiciones"
+                            value={values.id_requisicion}
+                            name="id_requisicion"
+                            onChange={handleChange}
+                            onBlur={handleChange}
+                        >
+                            {requisiciones.map((requisiciones, i) => (
+                                <MenuItem value={requisiciones.id_requisicion} key={i} onClick = {fetchDetalleRequisicion}>
+                                    {requisiciones.id_requisicion}
                                 </MenuItem>
                             ))}
                         </Select>
