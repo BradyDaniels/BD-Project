@@ -7,13 +7,14 @@ const Cotizaciones = () => {
 
     return (
         <div className="content-container">
-            <h1 className="content-title">Cotizaciones</h1>
+            <h1 className="content-title">Nueva Cotizacion</h1>
             <div className="form-container">
                 <CotizacionesForm />
             </div>
-            {/* <div className="table-container">
-                <CDetalleReqTable />
-            </div>  */}
+            <h1 className="content-title">Cotizaciones</h1>
+            <div className="table-container">
+                <CotizacionesTable />
+            </div> 
         </div>
     )
 }

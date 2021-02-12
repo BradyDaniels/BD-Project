@@ -14,10 +14,10 @@ const CotizacionesTable = () => {
     const [ state, setState ] = useState({
         columns: [
             {title: 'ID', field: 'id', editable: 'never'},
-            {title: 'ID Linea', field: 'id_linea'},
-            {title: 'Fecha de Emision', field: 'fecha_emision'},
-            {title: 'Observaciones', field: 'observaciones'},
-            {title: 'Condiciones de Entrega', field: 'condiciones_entrega'},
+            {title: 'ID Linea', field: 'id_linea', editable: 'never'},
+            {title: 'Fecha de Emision', field: 'fecha_emision', editable: 'never'},
+            {title: 'Observaciones', field: 'observaciones', editable: 'never'},
+            {title: 'Condiciones de Entrega', field: 'condiciones_entrega', editable: 'never'},
         ],
         data: []
     })

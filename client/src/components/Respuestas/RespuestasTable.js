@@ -9,9 +9,9 @@ const RespuestasTable = () => {
             { title: 'ID', field: 'id', editable: 'never' },
             { title: 'ID Cotizacion', field: 'id_cotizacion', editable: 'never' },
             { title: 'Precio Total', field: 'precio_total', editable: 'never' },
-            { title: 'Formato de Pago', field: 'formato_pago' },
-            { title: 'Tipo Moneda', field: 'tipo_moneda' },
-            { title: 'RIF', field: 'rif', editable: 'never' },
+            { title: 'Formato de Pago', field: 'formato_pago', editable: 'never' },
+            { title: 'Tipo Moneda', field: 'tipo_moneda', editable: 'never' },
+            { title: 'RIF', field: 'rif', editable: 'never', editable: 'never' },
         ],
         data: []
     })
