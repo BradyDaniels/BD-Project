@@ -190,6 +190,32 @@ const RespuestasForm = () => {
         //fetchDetalleRequisicion()
     }
 
+     const fecthCargarDetalleCompra=()=>{
+        
+        fetch(`http://localhost:5000/respuestas`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(values)
+        })
+            .then(res => res.json())
+            .then(result => console.log(result))
+            .catch(err => console.log(err.message)) 
+
+        console.log(values.id,' / ',values.rif,' / ',values.id_cotizacion); 
+        DetalleRequisicion.map((item,i)=>{
+            fetch(`http://localhost:5000/detalle_compra`, {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify( { id:i, cantidad:item.cantidad_solicitada, precio_compra:item.precio_estimado, 
+                    id_detalle_req:item.id, id_requisicion:item.id_requisicion, id_item:item.id_item
+                    , id_respuesta:parseInt(values.id), rif:values.rif, id_cotizacion:values.id_cotizacion, id_orden:null })
+            })
+                .then(res => res.json())
+                .then(result => console.log(result))
+                .catch(err => console.log(err.message)) 
+           }) 
+     }
+
     useEffect(() => {
         fetchProveedores()
         fetchCotizaciones()
@@ -271,7 +297,9 @@ const RespuestasForm = () => {
                             name="precio_total"
                             variant="outlined"
                             // Se quito el ConChange
-                            value={values.precio_total} />
+                            value={values.precio_total} 
+                            onChange={handleChange}
+                            />
                             <br></br>
                             
                         <RadioGroup aria-label="Tipo de Moneda" name="tipo_moneda" value={values.tipo_moneda} onChange={handleChange}>
@@ -285,7 +313,7 @@ const RespuestasForm = () => {
                         <FormControlLabel onClick={toggleSelect} value="contado" control={<Radio />} label="Contado" />
                         <FormControlLabel onClick={toggleSelect} value="credito" control={<Radio />} label="Credito" />
                     </RadioGroup>
-                    <Button type="submit" variant="contained" size="small" disableElevation>Registrar Repuesta</Button>
+                    <Button variant="contained" size="small" disableElevation onClick={fecthCargarDetalleCompra}>Registrar Repuesta</Button>
                 </FormControl>
                 
             </form>

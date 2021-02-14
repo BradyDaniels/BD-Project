@@ -15,7 +15,8 @@ router.post("/detalle_compra", async(req, res)=> {
            "INSERT INTO detalle_compra ( id, cantidad, precio_compra, id_detalle_req, id_requisicion, id_item, id_respuesta, rif, id_cotizacion, id_orden ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *",
            [ id, cantidad, precio_compra, id_detalle_req, id_requisicion, id_item, id_respuesta, rif, id_cotizacion, id_orden ]
         );
-
+    
+    console.log('ROUTES: ',req.body)   
     res.json(newDetalleCompra.rows[0]);
     } catch (err) {
         console.error(err.message);
@@ -55,9 +56,9 @@ router.get("/detalle_compra/:id", async(req, res) =>{
 router.put("/detalle_compra/:id", async(req,res) =>{
     try {
         const { id } = req.params;
-        const { id_detalleReq, cantidad_solicitada, precio_estimado, id_requisicion, id_item } = req.body;
+        const {cantidad, precio_compra, id_detalle_req, id_requisicion, id_item, id_respuesta, rif, id_cotizacion, id_orden} = req.body;
         const updateDetalleCompra = await pool.query(
-            "UPDATE detalle_compra SET id = $1, cantidad = $2, precio_compra = $3, id_detalle_req = $4, id_requisicion = $5, id_item = $6, id_respuesta = $7, rif = $8, id_cotizacion = $9, id_orden = $10 WHERE id = $11",// revisar el where
+            "UPDATE detalle_compra SET id = $1, cantidad= $2, precio_compra = $3, id_detalle_req = $4, id_requisicion = $5, id_item = $6, id_respuesta = $7, rif = $8, id_cotizacion = $9, id_orden = $10 WHERE id = $11",// revisar el where
             [ id, cantidad, precio_compra, id_detalle_req, id_requisicion, id_item, id_respuesta, rif, id_cotizacion, id_orden, id ]
         );
     res.json ("Detalle Compra was updated");

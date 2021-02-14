@@ -148,11 +148,11 @@ const OrdenCompraForm = () => {
     //actualizar una Detalle Requisicion
     const updateDetalleCompra = (DetalleCompra) => {
         console.log(DetalleCompra)
-        const { id, cantidad_solicitada, precio_estimado, id_requisicion, id_item } = DetalleCompra;
+        const { id, cantidad_solicitada, precio_estimado, id_requisicion, id_item,id_orden } = DetalleCompra;
         const updateDR = fetch(`http://localhost:5000/detalle_compra/${id}`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ id, cantidad_solicitada, precio_estimado, id_requisicion, id_item })
+            body: JSON.stringify(DetalleCompra)
         })
             .then(res => res.json())
             .then(result => console.log(result))
@@ -168,12 +168,31 @@ const OrdenCompraForm = () => {
         today = mm + '-' + dd + '-' + yyyy;
         return today;
     }
+
+    const cargarOrdenCompra=()=>{
+
+        fetch(`http://localhost:5000/orden_compra`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(values)
+        })
+            .then(res => res.json())
+            .then(result => console.log(result))
+            .catch(err => console.log(err.message)) 
+
+        DetalleCompra.map((item,i)=>{
+            item.id_orden=values.id
+            updateDetalleCompra(item)    
+        })     
+
+    }
     
     useEffect(() => {
         fetchtrabajadores()
         fetchCotizaciones()
         fetchRespuestas();
         fetchSubtotal()
+        fetchDetalleCompra()
     }, [])
 
     return (
@@ -319,7 +338,7 @@ const OrdenCompraForm = () => {
                             ))}
                         </Select>
                     </FormControl>
-                    <Button type="submit" variant="contained" size="small" disableElevation>Registrar Orden de Compra</Button>
+                    <Button onClick={cargarOrdenCompra} variant="contained" size="small" disableElevation>Registrar Orden de Compra</Button>
                 </FormControl>
             </form>
             <br></br>
