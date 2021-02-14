@@ -19,9 +19,9 @@ const OrdenCompraForm = () => {
     const [precioTotal, setPrecioTotal] = useState([{}])
     const [respuestas, setRespuestas] = useState([{}])
     var [subtotal, setSubtotal] = useState([{}])
+    var [iva, setIva] = useState([{}])
     //var subtotal = 0;
 
-    const iva = 0.12
     
     const [DetalleCompra, setDetalleCompra] = useState([{}]);
 
@@ -110,6 +110,7 @@ const OrdenCompraForm = () => {
         
         }
     }
+    
     const fetchSubtotal = () => {
         if(values.id_respuesta == undefined){
             console.log("Subtotal Vacio")
@@ -126,9 +127,7 @@ const OrdenCompraForm = () => {
              headers: { 'Content-type': 'application/json' }
          })
              .then(res => res.json())
-             //.then(result => console.log(result))
-             .then (result => subtotal = result[0] ) 
-             .then (() => console.log(subtotal.sum)) 
+             .then (result => setSubtotal(result)) 
              .catch(err => console.log(err.message))
         
         }
@@ -185,6 +184,18 @@ const OrdenCompraForm = () => {
             updateDetalleCompra(item)    
         })     
 
+    }
+
+    function calcularIva (){
+        var iva1;
+        const impuesto = 0.16
+        iva1 = values.subtotal * impuesto
+        values.iva = iva1;
+        console.log (values.iva)
+    }
+    function calculartotal (){
+        values.monto_total = values.subtotal + values.iva;
+        console.log (values.monto_total)
     }
     
     useEffect(() => {
@@ -264,15 +275,23 @@ const OrdenCompraForm = () => {
                             onChange={handleChange} />
                             <br></br><br></br>
                         <div>
-                        <TextField
-                            className="text-field"
-                            size="small"
-                            label="Subtotal"
+                        <FormControl>
+                        <InputLabel id="subtotal-label">Subtotal</InputLabel>
+                        <Select
+                            labelId="subtotal-label"
+                            id="subtotal"
+                            value={values.subtotal}
                             name="subtotal"
-                            variant="outlined"
-                            // Se quito el ConChange
-                            value={subtotal} 
-                            onChange={handleChange} /> 
+                            onChange={handleChange}
+                            onBlur={handleChange}
+                        >
+                            {subtotal.map((subtotal, i) => (
+                                <MenuItem value={subtotal.sum} key={i} onClick = {fetchSubtotal}>
+                                    {subtotal.sum}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl> 
                         </div>      
                         <div>
                         <TextField
@@ -282,8 +301,7 @@ const OrdenCompraForm = () => {
                             name="iva"
                             variant="outlined"
                             // Se quito el ConChange
-                            value={iva} 
-                            onChange={handleChange} />     
+                            value={values.iva}  />     
                         </div>
                         <TextField
                             className="text-field"
@@ -292,9 +310,12 @@ const OrdenCompraForm = () => {
                             name="monto_total"
                             variant="outlined"
                             // Se quito el ConChange
-                            value={values.monto_total} 
-                            onChange={handleChange} />     
+                            value={values.monto_total}/>
                     </div>
+                            <Button onClick={calcularIva} variant="contained" size="small" disableElevation>Calcular IVA </Button> 
+                            <br></br>   
+                            <Button onClick={calculartotal} variant="contained" size="small" disableElevation>Calcular Total </Button>
+
                    <RadioGroup aria-label="Tipo de Moneda" name="tipo_moneda" value={values.tipo_moneda} onChange={handleChange}>
                             <FormControlLabel onClick={toggleSelect} value="bolivares" control={<Radio />} label="Bolivares" />
                             <FormControlLabel onClick={toggleSelect} value="divisas" control={<Radio />} label="Divisas" />

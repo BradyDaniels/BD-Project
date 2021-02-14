@@ -101,8 +101,9 @@ const RespuestasForm = () => {
             .then(result => setCotizaciones(result))
             .catch(err => console.log(err.message))
     }
+
     const fetchPrecioTotal = () => { //Bueno aqui toca poner que llame con el id
-        fetch('http://localhost:5000/precio_total/')
+        fetch(`http://localhost:5000/precio_total/${values.id_requisicion}`)
             .then(res => res.json())
             .then(result => setPrecioTotal(result))
             .catch(err => console.log(err.message))
@@ -219,7 +220,6 @@ const RespuestasForm = () => {
     useEffect(() => {
         fetchProveedores()
         fetchCotizaciones()
-        fetchPrecioTotal()
         fetchDetalleRequisicion();
     }, [])
 
@@ -289,19 +289,27 @@ const RespuestasForm = () => {
                             name="id"
                             variant="outlined"
                             value={values.id}
-                            onChange={handleChange} />
-                        <TextField
-                            className="text-field"
-                            size="small"
-                            label="Precio Total"
-                            name="precio_total"
-                            variant="outlined"
-                            // Se quito el ConChange
-                            value={values.precio_total} 
-                            onChange={handleChange}
-                            />
-                            <br></br>
+                            onChange={handleChange} /> 
+
                             
+                            <br></br>
+                            <FormControl>
+                                <InputLabel id="preciototal-label">Precio Total</InputLabel>
+                                <Select
+                                    labelId="preciotoal-label"
+                                    id="precio_total"
+                                    value={values.precio_total}
+                                    name="precio_total"
+                                    onChange={handleChange}
+                                    onBlur={handleChange}
+                                >
+                                    {precioTotal.map((precioTotal, i) => (
+                                        <MenuItem value={precioTotal.sum} key={i} onClick = {fetchPrecioTotal}>
+                                            {precioTotal.sum}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
                         <RadioGroup aria-label="Tipo de Moneda" name="tipo_moneda" value={values.tipo_moneda} onChange={handleChange}>
                             <FormControlLabel onClick={toggleSelect} value="bolivares" control={<Radio />} label="Bolivares" />
                             <FormControlLabel onClick={toggleSelect} value="divisas" control={<Radio />} label="Divisas" />

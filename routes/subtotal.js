@@ -8,11 +8,11 @@ const pool = require("../server/db");
 router.get("/subtotal/:id", async(req, res) =>{ //El valor lo devuelve como Sum
     try {
         const { id } = req.params;
-        const trabajador = await pool.query(
+        const subtotal = await pool.query(
             "SELECT SUM (precio_compra) FROM detalle_compra WHERE id_respuesta = $1",
             [id]
         );
-    res.json(trabajador.rows);
+    res.json(subtotal.rows);
     } catch (err) {
         console.error(err.message);
     }
